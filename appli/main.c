@@ -40,7 +40,7 @@ int main(void)
 	//Initialisation de l'UART2 à la vitesse de 115200 bauds/secondes (92kbits/s) PA2 : Tx  | PA3 : Rx.
 		//Attention, les pins PA2 et PA3 ne sont pas reliées jusqu'au connecteur de la Nucleo.
 		//Ces broches sont redirigées vers la sonde de débogage, la liaison UART étant ensuite encapsulée sur l'USB vers le PC de développement.
-	UART_init(UART2_ID,115200);
+	UART_init(UART2_ID,19200);
 
 	//"Indique que les printf sortent vers le périphérique UART2."
 	SYS_set_std_usart(UART2_ID, UART2_ID, UART2_ID);
