@@ -9,6 +9,7 @@
 #define CAM_H_
 
 #define MAX_BLOCKS 15
+#define CAM_UART1 1
 
 #include "config.h"
 #include "stm32f1_uart.h"
@@ -41,6 +42,6 @@ typedef struct{
 	uint8_t nb_blocks_received;
 }blocks_received_s;
 
-blocks_received_s CAM_get_blocks();
+void CAM_get_blocks(blocks_received_s *blocks_received);
 
 #endif /* CAM_H_ */
