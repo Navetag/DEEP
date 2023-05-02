@@ -12,7 +12,11 @@
 #include "stm32f1_gpio.h"
 #include "macro_types.h"
 #include "systick.h"
+#include "stm32f1_ili9341.h"
 #include "cam.h"
+
+
+void TFT_Init();
 
 void writeLED(bool_e b)
 {
@@ -31,21 +35,27 @@ void process_ms(void)
 		t--;
 }
 
-
+void TFT_Init(){
+	ILI9341_Init();
+	ILI9341_Rotate(ILI9341_Orientation_Landscape_1);
+	ILI9341_Fill(ILI9341_COLOR_WHITE);
+	XPT2046_init();
+}
 int main(void)
 {
 	//Initialisation de la couche logicielle HAL (Hardware Abstraction Layer)
-	//Cette ligne doit rester la premiËre Ètape de la fonction main().
+	//Cette ligne doit rester la premi√®re √©tape de la fonction main().
 	HAL_Init();
-	//Initialisation de l'UART2 ‡ la vitesse de 115200 bauds/secondes (92kbits/s) PA2 : Tx  | PA3 : Rx.
-		//Attention, les pins PA2 et PA3 ne sont pas reliÈes jusqu'au connecteur de la Nucleo.
-		//Ces broches sont redirigÈes vers la sonde de dÈbogage, la liaison UART Ètant ensuite encapsulÈe sur l'USB vers le PC de dÈveloppement.
+	//Initialisation de l'UART2 √† la vitesse de 115200 bauds/secondes (92kbits/s) PA2 : Tx  | PA3 : Rx.
+		//Attention, les pins PA2 et PA3 ne sont pas reli√©es jusqu'au connecteur de la Nucleo.
+		//Ces broches sont redirig√©es vers la sonde de d√©bogage, la liaison UART √©tant ensuite encapsul√©e sur l'USB vers le PC de d√©veloppement.
 	UART_init(UART2_ID,19200);
 #if CAM_UART1
 		UART_init(UART1_ID,19200);
 #endif
 
-	//"Indique que les printf sortent vers le pÈriphÈrique UART2."
+	TFT_Init();
+	//"Indique que les printf sortent vers le p√©riph√©rique UART2."
 //	SYS_set_std_usart(UART2_ID, UART2_ID, UART2_ID);
 
 	//Initialisation du port de la led Verte (carte Nucleo)
@@ -54,7 +64,7 @@ int main(void)
 	//Initialisation du port du bouton bleu (carte Nucleo)
 	BSP_GPIO_PinCfg(BLUE_BUTTON_GPIO, BLUE_BUTTON_PIN, GPIO_MODE_INPUT,GPIO_PULLUP,GPIO_SPEED_FREQ_HIGH);
 
-	//On ajoute la fonction process_ms ‡ la liste des fonctions appelÈes automatiquement chaque ms par la routine d'interruption du pÈriphÈrique SYSTICK
+	//On ajoute la fonction process_ms √† la liste des fonctions appel√©es automatiquement chaque ms par la routine d'interruption du p√©riph√©rique SYSTICK
 	Systick_add_callback_function(&process_ms);
 
 	blocks_received_s blocks_received;
@@ -62,15 +72,19 @@ int main(void)
 	bool_e previous_press = FALSE;
 	bool_e current_press = FALSE;
 	bool_e pressed = FALSE;
-	while(1)	//boucle de t‚che de fond
+	ILI9341_demo();
+	while(1)	//boucle de t√¢che de fond
 	{
-		current_press = readButton();
-		pressed = current_press && !previous_press;
-		previous_press = current_press;
+//		ILI9341_demo();
+//		current_press = readButton();
+//		pressed = current_press && !previous_press;
+//		previous_press = current_press;
+//
+//		if(pressed){
+//			CAM_get_blocks(&blocks_received);
+//			current_press = current_press;
 
-		if(pressed){
-			CAM_get_blocks(&blocks_received);
-			current_press = current_press;
-		}
+//		}
+
 	}
 }
