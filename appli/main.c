@@ -14,6 +14,7 @@
 #include "systick.h"
 #include "stm32f1_ili9341.h"
 #include "cam.h"
+#include "stm32f1_xpt2046.h"
 
 
 void TFT_Init();
@@ -54,7 +55,7 @@ int main(void)
 		UART_init(UART1_ID,19200);
 #endif
 
-	TFT_Init();
+	//TFT_Init();
 	//"Indique que les printf sortent vers le périphérique UART2."
 //	SYS_set_std_usart(UART2_ID, UART2_ID, UART2_ID);
 
@@ -72,9 +73,11 @@ int main(void)
 	bool_e previous_press = FALSE;
 	bool_e current_press = FALSE;
 	bool_e pressed = FALSE;
-	ILI9341_demo();
+	//ILI9341_demo();
+	XPT2046_init();
 	while(1)	//boucle de tâche de fond
 	{
+		XPT2046_demo();
 //		ILI9341_demo();
 //		current_press = readButton();
 //		pressed = current_press && !previous_press;
