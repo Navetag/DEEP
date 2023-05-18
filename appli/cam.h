@@ -9,7 +9,7 @@
 #define CAM_H_
 
 #define MAX_BLOCKS 15
-#define CAM_UART1 1
+#define CAM_UART1 0
 
 #include "config.h"
 #include "stm32f1_uart.h"

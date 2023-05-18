@@ -9,6 +9,8 @@
 #include "cam.h"
 
 void CAM_get_blocks(blocks_received_s *blocks_received){
+
+
 	/*
 	 * Trame envoyée à la pixycam :
 	 * 174,193 : 16-bit sync
@@ -19,12 +21,13 @@ void CAM_get_blocks(blocks_received_s *blocks_received){
 	 */
 	uint8_t packet[6] = {174,193,32,2,255,MAX_BLOCKS};
 
+//	uint8_t packet[6] = {174,193,22,2,1,0}; //LAMPS
+
 #if CAM_UART1
 	UART_puts(UART1_ID, packet, 6);
 #else
 	UART_puts(UART2_ID, packet, 6);
 #endif
-
 //	UART_puts(UART2_ID, (uint8_t[]){174,193,32,2,255,MAX_BLOCKS}, 6);
 
 	HAL_Delay(100);
