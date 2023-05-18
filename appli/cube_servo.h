@@ -1,5 +1,7 @@
 #include "config.h"
 
+#define     TIME_WAIT_STATE_MS      1000
+
 typedef enum{
     BOTTOM_90_A,
     BOTTOM_180,
