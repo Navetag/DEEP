@@ -1,6 +1,8 @@
+
 #include "config.h"
 
 #define     TIME_WAIT_STATE_MS      1000
+#define
 
 typedef enum{
     BOTTOM_90_A,
@@ -47,11 +49,12 @@ typedef enum{
     SCAN_POS,
     DEFAULT         //Le doigt ne touche pas et le cube peut tourner
 
-}cube_servo_primary_mvt_e
+}cube_servo_primary_mvt_e;
 
 
 
 typedef enum{
+	INIT,
     WAIT,
     MAKE,
     FINISHED
@@ -65,7 +68,6 @@ typedef enum{
 
 typedef enum{
     POS_FLIP_UP,
-
     POS_DEFAULT,
     POS_CUBE_LOCK
 }cube_servo_cage_pos_e;
@@ -77,13 +79,13 @@ typedef enum{
         - gère une pile FIFO contenant les mvts en attente (tableau de )
         - récupère l'état du cube
 */
-void cube_servo_process(cueb_s cube);
+void cube_servo_process(cube_s cube);
 
 /*
     Ajoute un mouvement dans la pile
 */
 bool_e cube_servo_addMvt(cube_servo_complex_mvt_e mvt);
-
+    
 /*
     Renvoie l'état de la machine servo
 */

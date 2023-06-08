@@ -16,6 +16,7 @@ typedef enum{
     Enumération de l'action récupérée par le tactile
 */
 typedef enum{
+    NONE,
     CLOSE,
     START,
     SHUFFLE,
