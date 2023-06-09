@@ -274,21 +274,24 @@ void CUBE_SERVO_init(){
 void CUBE_SERVO_handle_primary(cube_servo_primary_mvt_e mvt){
 	switch(mvt){
 		case MAX_CLKWISE :
-			//TODO
+			CUBE_SERVO_support_set_position(MAX_CLKWISE_POS_VAL);
 			break;
 		case MAX_REVERSE :
-			//TODO
+			CUBE_SERVO_support_set_position(MAX_REVERSE_POS_VAL);
 			break;
+		case MIDDLE_POS:
+			CUBE_SERVO_support_set_position(MIDDLE_POS_VALUE_VAL);
+			break;
+
 		case HOLD_CUBE :
-			//TODO
+			CUBE_SERVO_cage_set_position(HOLD_CUBE_POS_VAL);
 			break;
 		case FLIP_UP :
-			//TODO
+			CUBE_SERVO_cage_set_position(FLIP_UP_POS_VAL);
 			break;
 
-
 		case DEFAULT_CAGE :
-			//TODO
+			CUBE_SERVO_cage_set_position(DEFAULT_CAGE_POS_VAL);
 			break;
 	}
 }

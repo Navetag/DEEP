@@ -8,6 +8,15 @@
 
 #define PERIOD_TIMER	10
 
+#define MAX_REVERSE_POS_VAL		0
+#define MAX_CLKWISE_POS_VAL		100
+#define MIDDLE_POS_VALUE_VAL	50
+
+#define FLIP_UP_POS_VAL			50
+#define DEFAULT_CAGE_POS_VAL	20
+#define HOLD_CUBE_POS_VAL		0
+
+
 
 typedef enum{
     BOTTOM_90_A,
