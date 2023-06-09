@@ -1,8 +1,10 @@
 
 #include "config.h"
+#include "macro_types.h"
+#include "systick.h"
 
 #define     TIME_WAIT_STATE_MS      1000
-#define
+
 
 typedef enum{
     BOTTOM_90_A,
@@ -27,14 +29,14 @@ typedef enum{
 
     RIGHT_90_A,
     RIGHT_180,
-    RIGHT_90
+    RIGHT_90,
 
     GAUCHE_90,
     DROITE_90,
     FLIP,
 
     READING_POSITION,
-    DEFAULT
+    DEFAULT_POS
 
 }cube_servo_complex_mvt_e;
 
@@ -42,12 +44,12 @@ typedef enum{
 typedef enum{
     CLOCKWISE_90,
     REVERSE_90,
-    
+
     HOLD_CUBE,
     FLIP_UP,
     FLIP_DOWN,
     SCAN_POS,
-    DEFAULT         //Le doigt ne touche pas et le cube peut tourner
+    DEFAULT_CAGE         //Le doigt ne touche pas et le cube peut tourner
 
 }cube_servo_primary_mvt_e;
 
@@ -55,7 +57,7 @@ typedef enum{
 
 typedef enum{
 	INIT,
-    WAIT,
+    WAIT_SERVO,
     MAKE,
     FINISHED
 }cube_servo_state_e;
@@ -75,20 +77,27 @@ typedef enum{
 
 
 /*
-    Machine Ã  Ã©tat
-        - gÃ¨re une pile FIFO contenant les mvts en attente (tableau de )
-        - rÃ©cupÃ¨re l'Ã©tat du cube
+    Machine à état
+        - gère une pile FIFO contenant les mvts en attente (tableau de )
+        - récupère l'état du cube
 */
-void cube_servo_process(cube_s cube);
+void cube_servo_process();
 
 /*
     Ajoute un mouvement dans la pile
 */
 bool_e cube_servo_addMvt(cube_servo_complex_mvt_e mvt);
-    
+
 /*
-    Renvoie l'Ã©tat de la machine servo
+    Renvoie l'état de la machine servo
 */
 cube_servo_state_e cube_servo_getState(void);
 
-void cube_servo_init();
+void cube_servo_init(void);
+
+
+void handle_primary(cube_servo_primary_mvt_e mvt);
+
+void queue(cube_servo_primary_mvt_e mvt);
+
+void unqueue();

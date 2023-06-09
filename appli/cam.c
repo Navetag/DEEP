@@ -7,8 +7,18 @@
 
 
 #include "cam.h"
+#include "stm32f1_uart.h"
 
-void CAM_get_blocks(blocks_received_s *blocks_received){
+
+void CAM_init(){
+	UART_init(UART2_ID,19200);
+}
+
+void CAM_askFor(request_type_e request){
+
+}
+
+void CAM_getFace(blocks_received_s *blocks_received){
 
 
 	/*
@@ -23,11 +33,7 @@ void CAM_get_blocks(blocks_received_s *blocks_received){
 
 //	uint8_t packet[6] = {174,193,22,2,1,0}; //LAMPS
 
-#if CAM_UART1
-	UART_puts(UART1_ID, packet, 6);
-#else
 	UART_puts(UART2_ID, packet, 6);
-#endif
 //	UART_puts(UART2_ID, (uint8_t[]){174,193,32,2,255,MAX_BLOCKS}, 6);
 
 	HAL_Delay(100);
@@ -35,19 +41,12 @@ void CAM_get_blocks(blocks_received_s *blocks_received){
 	uint8_t buf[6+14*MAX_BLOCKS];
 	uint16_t buf_index = 0;
 
-#if CAM_UART1
-	while(UART_data_ready(UART1_ID) && buf_index < 6+14*MAX_BLOCKS)
-	{
-		buf[buf_index] = UART_getc(UART1_ID);
-		buf_index++;
-	}
-#else
+
 	while(UART_data_ready(UART2_ID) && buf_index < 6+14*MAX_BLOCKS)
 	{
 		buf[buf_index] = UART_getc(UART2_ID);
 		buf_index++;
 	}
-#endif
 
 	//Le 4eme octet de la réponse indique la longueur du payload
 	blocks_received->nb_blocks_received = buf[3]/14;

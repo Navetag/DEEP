@@ -9,11 +9,10 @@
 #define CAM_H_
 
 #define MAX_BLOCKS 15
-#define CAM_UART1 0
 
 #include "config.h"
-#include "stm32f1_uart.h"
-#include <stdlib.h>
+#include "macro_types.h"
+
 
 
 /*
@@ -29,6 +28,12 @@ typedef enum{
 	WHITE = 6
 }block_type_e;
 
+typedef enum{
+	LED_ON,
+	LED_OFF,
+	FACE
+}request_type_e;
+
 typedef struct{
 	block_type_e signature;
 	uint16_t center_x;
@@ -42,6 +47,14 @@ typedef struct{
 	uint8_t nb_blocks_received;
 }blocks_received_s;
 
-void CAM_get_blocks(blocks_received_s *blocks_received);
+void CAM_init();
+
+bool_e CAM_isReady();
+
+void CAM_askFor(request_type_e request);
+
+void CAM_flush();
+
+void CAM_getFace(blocks_received_s *blocks_received);
 
 #endif /* CAM_H_ */
