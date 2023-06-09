@@ -3,7 +3,8 @@
 
 static cube_servo_rot_pos_e cube_rot_position;
 static cube_servo_cage_pos_e cube_cage_position;
-static cube_servo_primary_mvt_e primary_mvt_list[500];
+
+static cube_servo_primary_mvt_e primary_mvt_list[2048];
 
 static cube_servo_state_e current_state = INIT;
 static cube_servo_state_e previous_state;
@@ -160,13 +161,57 @@ void CUBE_SERVO_init(){
 }
 
 void CUBE_SERVO_handle_primary(cube_servo_primary_mvt_e mvt){
-	//TODO
+	switch(mvt){
+	case CLOCKWISE_90 :
+		//TODO
+		break;
+	case REVERSE_90 :
+		//TODO
+		break;
+	case HOLD_CUBE :
+		//TODO
+		break;
+	case FLIP_UP :
+		//TODO
+		break;
+	case FLIP_DOWN :
+		//TODO
+		break;
+	case SCAN_POS :
+		//TODO
+		break;
+	case DEFAULT_CAGE :
+		//TODO
+		break;
+	}
 }
 
 void CUBE_SERVO_queue(cube_servo_primary_mvt_e mvt){
-	//TODO
+	queue_pointer ++;
+	primary_mvt_list[i] = mvt;
 }
 
 void CUBE_SERVO_unqueue(){
-	//TODO
+	for(int i = 0; i <= queue_pointer; i++){
+		primary_mvt_list[i] = primary_mvt_list[i+1];
+	}
+	queue_pointer--;
+}
+
+
+void CUBE_SERVO_support_set_position(uint16_t position){
+	if(position > 100)
+		position = 100; //écretage si l'utilisateur demande plus de 100%
+	current_position = position;
+
+	TIMER_set_duty(TIMER1_ID, TIM_CHANNEL_1, position+100);
+
+}
+void CUBE_SERVO_cage_set_position(uint16_t position){
+	if(position > 100)
+		position = 100; //écretage si l'utilisateur demande plus de 100%
+	current_position = position;
+
+	TIMER_set_duty(TIMER1_ID, TIM_CHANNEL_2, position+100);
+
 }

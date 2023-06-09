@@ -101,3 +101,7 @@ void handle_primary(cube_servo_primary_mvt_e mvt);
 void queue(cube_servo_primary_mvt_e mvt);
 
 void unqueue();
+
+void CUBE_SERVO_support_set_position(uint16_t position);
+
+void CUBE_SERVO_cage_set_position(uint16_t position);
