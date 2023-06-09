@@ -2,8 +2,11 @@
 #include "config.h"
 #include "macro_types.h"
 #include "systick.h"
+#include "stm32f1_timer.h"
 
 #define     TIME_WAIT_STATE_MS      1000
+
+#define PERIOD_TIMER	10
 
 
 typedef enum{
@@ -35,20 +38,19 @@ typedef enum{
     DROITE_90,
     FLIP,
 
-    READING_POSITION,
+
     DEFAULT_POS
 
 }cube_servo_complex_mvt_e;
 
 
 typedef enum{
-    CLOCKWISE_90,
-    REVERSE_90,
+    MAX_CLKWISE,
+    MAX_REVERSE,
+	MIDDLE_POS,
 
     HOLD_CUBE,
     FLIP_UP,
-    FLIP_DOWN,
-    SCAN_POS,
     DEFAULT_CAGE         //Le doigt ne touche pas et le cube peut tourner
 
 }cube_servo_primary_mvt_e;

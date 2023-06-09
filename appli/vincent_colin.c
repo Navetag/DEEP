@@ -10,6 +10,8 @@
 #include "screen.h"
 #include "cam.h"
 
+
+
 typedef enum{
 	VINCENT_INIT,
 	VINCENT_IDLE,
@@ -67,7 +69,7 @@ void VINCENT_state(){
 		if(entrance){
 			cube_servo_complex_mvt_e moves[] = {BOTTOM_180, BOTTOM_90};
 			uint8_t nb_moves = 2;
-			for(uint8_t i = 0; i < nb_moves;_i++){
+			for(uint8_t i = 0; i < nb_moves;i++){
 				//Add MOVE (moves[i])
 			}
 
