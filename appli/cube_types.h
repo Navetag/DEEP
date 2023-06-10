@@ -11,7 +11,10 @@
 #include "macro_types.h"
 #include "stdbool.h"
 
-
+/*
+ * Chaque élément de cette énumération doit prendre la valeur de la signature
+ * définie sur la pixycam.
+ */
 typedef enum{
 	CUBE_NONE = 0,
 	CUBE_RED = 1,
@@ -32,7 +35,5 @@ typedef struct{
 	face_t left;
 	face_t right;
 }cube_s;
-
-
 
 #endif /* CUBE_TYPES_H_ */

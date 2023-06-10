@@ -1,50 +1,52 @@
-#include "config.h"
+/*
+ * screen.h
+ *
+ *  Created on: 10 juin 2023
+ *      Author: auger
+ */
+
+#ifndef SCREEN_H_
+#define SCREEN_H_
+
+#include "cube_types.h"
 
 /*
-    EnumÃ©ration de l'Ã©cran demandÃ©
+    Enumération de l'écran demandé
 */
 typedef enum{
-    MENU,
-    SOLVING_MENU,
-    SOLVING,
-    SCANNING,
-    SHUFFLING,
-    SHUFFLING_MENU
+    SCREEN_MENU,
+	SCREEN_RESOLVING_MENU,
+	SCREEN_RESOLVING,
+	SCREEN_MODELING,
+	SCREEN_SHUFFLING,
+	SCREEN_SHUFFLING_MENU
 }screen_type_e;
 
 /*
-    EnumÃ©ration de l'action rÃ©cupÃ©rÃ©e par le tactile
+    Enumération de l'action récupérée par le tactile
 */
 typedef enum{
-    NONE,
-    CLOSE,
-    START,
-    SHUFFLE,
-    SOLVE
+	SCREEN_ACTION_NONE,
+	SCREEN_ACTION_CLOSE,
+	SCREEN_ACTION_START,
+	SCREEN_ACTION_SHUFFLE,
+	SCREEN_ACTION_SOLVE
 }user_action_e;
 
-typedef enum{
-    WAIT,
-    GET_PRESSED_BUTTON
-}screen_state_e;
-
+/*
+    Récupération de l'action effectuée via le tactile de l'écran
+*/
+user_action_e SCREEN_getLastUserAction(void);
 
 /*
-    RÃ©cupÃ©ration de l'action effectuÃ©e via le tactile de l'Ã©cran
+    Demande d'affichage du menu demandé
+    Si le type est "SCREEN_MODELING" il est attendu que le second paramêtre ne soit pas un pointeur null.
 */
-user_action_e screen_getLastUserAction(void);
+void SCREEN_display(screen_type_e type, cube_s * cube);
 
 /*
-    Demande d'affichage du menu demandÃ©
+    Machine à état
 */
-void screen_display(screen_type_e, cube_s * cube);
+void SCREEN_process(void);
 
-/*
-    Machine Ã  Ã©tat
-*/
-void screen_process(void);
-
-
-void screen_init(void);
-
-
+#endif /* SCREEN_H_ */

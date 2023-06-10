@@ -8,19 +8,13 @@
 #ifndef CAM_H_
 #define CAM_H_
 
-#define MAX_BLOCKS 15
-
 #include "config.h"
 #include "macro_types.h"
 #include "cube_types.h"
 
-
-
-/*
- * Chaque élément de cette énumération doit prendre la valeur de la signature
- * définie sur la pixycam correspondante.
- */
-
+#define CAM_MAX_BLOCKS 				15
+#define CAM_ORIGIN_SQUARE_CENTER 	26
+#define CAM_SPACES_BETWEEN_SQUARES 	65
 
 typedef enum{
 	CAM_LED_PARTIAL_ON,
@@ -29,29 +23,13 @@ typedef enum{
 	CAM_FACE
 }request_type_e;
 
-typedef struct{
-	block_type_e signature;
-	uint16_t center_x;
-	uint16_t center_y;
-	uint16_t width;
-	uint16_t height;
-}block_s;
+void CAM_init(void);
 
-typedef struct{
-	block_s blocks[MAX_BLOCKS];
-	uint8_t nb_blocks_received;
-}blocks_received_s;
-
-
-
-
-void CAM_init();
-
-bool_e CAM_isReady();
+bool_e CAM_isReady(void);
 
 void CAM_askFor(request_type_e request);
 
-void CAM_flush();
+void CAM_flush(void);
 
 void CAM_getFace(face_t face);
 

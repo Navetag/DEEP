@@ -8,6 +8,6 @@
 #ifndef VINCENT_COLIN_H_
 #define VINCENT_COLIN_H_
 
-void VINCENT_process();
+void VINCENT_process(void);
 
 #endif /* VINCENT_COLIN_H_ */

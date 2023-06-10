@@ -13,9 +13,7 @@
 #include "macro_types.h"
 #include "systick.h"
 #include "stm32f1_ili9341.h"
-#include "cam.h"
 #include "stm32f1_xpt2046.h"
-
 
 
 //void TFT_Init();
@@ -64,28 +62,8 @@ int main(void)
 	//On ajoute la fonction process_ms à la liste des fonctions appelées automatiquement chaque ms par la routine d'interruption du périphérique SYSTICK
 //	Systick_add_callback_function(&process_ms);
 
-//	blocks_received_s blocks_received;
-//
-//	bool_e previous_press = FALSE;
-//	bool_e current_press = FALSE;
-//	bool_e pressed = FALSE;
-	//ILI9341_demo();
-//	XPT2046_init();
 	while(1)	//boucle de tâche de fond
 	{
-		vincentColin_process();
-
-//		XPT2046_demo();
-//		ILI9341_demo();
-//		current_press = readButton();
-//		pressed = current_press && !previous_press;
-//		previous_press = current_press;
-//
-//		if(pressed){
-//			CAM_get_blocks(&blocks_received);
-//			current_press = current_press;
-
-//		}
-
+		VINCENT_process();
 	}
 }
