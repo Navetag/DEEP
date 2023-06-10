@@ -12,6 +12,7 @@
 
 #include "config.h"
 #include "macro_types.h"
+#include "cube_types.h"
 
 
 
@@ -19,19 +20,13 @@
  * Chaque élément de cette énumération doit prendre la valeur de la signature
  * définie sur la pixycam correspondante.
  */
-typedef enum{
-	RED = 1,
-	ORANGE = 2,
-	YELLOW = 3,
-	GREEN = 4,
-	BLUE = 5,
-	WHITE = 6
-}block_type_e;
+
 
 typedef enum{
-	LED_ON,
-	LED_OFF,
-	FACE
+	CAM_LED_PARTIAL_ON,
+	CAM_LED_FULL_ON,
+	CAM_LED_OFF,
+	CAM_FACE
 }request_type_e;
 
 typedef struct{
@@ -47,6 +42,9 @@ typedef struct{
 	uint8_t nb_blocks_received;
 }blocks_received_s;
 
+
+
+
 void CAM_init();
 
 bool_e CAM_isReady();
@@ -55,6 +53,6 @@ void CAM_askFor(request_type_e request);
 
 void CAM_flush();
 
-void CAM_getFace(blocks_received_s *blocks_received);
+void CAM_getFace(face_t face);
 
 #endif /* CAM_H_ */
