@@ -24,7 +24,7 @@ void CUBE_SERVO_process(){
 	switch(current_state){
 
 		case INIT :
-			Systick_add_callback_function(&waitingTimer);
+			Systick_add_callback_function(&CUBE_SERVO_waitingTimer);
 			cube_servo_init();
 			for(int i = 0 ; i<500; i++){
 				primary_mvt_list[i] = -1;
@@ -64,73 +64,184 @@ void CUBE_SERVO_process(){
 bool_e CUBE_SERVO_addMvt(cube_servo_complex_mvt_e mvt){
 	switch(mvt){
 		case BOTTOM_90_A:
-
+			queue(HOLD_CUBE);
+			queue(MAX_REVERSE);
+			queue(DEFAULT_CAGE);
+			queue(MIDDLE_POS);
 			break;
 		case BOTTOM_180:
-
+			queue(MAX_REVERSE);
+			queue(HOLD_CUBE);
+			queue(MAX_CLKWISE);
+			queue(DEFAULT_CAGE);
+			queue(MIDDLE_POS);
 			break;
 		case BOTTOM_90:
-
+			queue(HOLD_CUBE);
+			queue(MAX_CLKWISE);
+			queue(DEFAULT_CAGE);
+			queue(MIDDLE_POS);
 			break;
 		case TOP_90_A:
-
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(HOLD_CUBE);
+			queue(MAX_REVERSE);
+			queue(DEFAULT_CAGE);
+			queue(MIDDLE_POS);
 			break;
 		case TOP_180:
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(MAX_REVERSE);
+			queue(HOLD_CUBE);
+			queue(MAX_CLKWISE);
+			queue(DEFAULT_CAGE);
+			queue(MIDDLE_POS);
 
 			break;
 		case TOP_90:
-
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(HOLD_CUBE);
+			queue(MAX_CLKWISE);
+			queue(DEFAULT_CAGE);
+			queue(MIDDLE_POS);
 			break;
 		case FRONT_90_A:
-
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(HOLD_CUBE);
+			queue(MAX_REVERSE);
+			queue(DEFAULT_CAGE);
+			queue(MIDDLE_POS);
 			break;
 		case FRONT_180:
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(MAX_REVERSE);
+			queue(HOLD_CUBE);
+			queue(MAX_CLKWISE);
+			queue(DEFAULT_CAGE);
+			queue(MIDDLE_POS);
 
 			break;
 		case FRONT_90:
-
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(HOLD_CUBE);
+			queue(MAX_CLKWISE);
+			queue(DEFAULT_CAGE);
+			queue(MIDDLE_POS);
 			break;
 		case BACK_90_A:
-
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(HOLD_CUBE);
+			queue(MAX_REVERSE);
+			queue(DEFAULT_CAGE);
+			queue(MIDDLE_POS);
 			break;
 		case BACK_180:
-
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(MAX_REVERSE);
+			queue(HOLD_CUBE);
+			queue(MAX_CLKWISE);
+			queue(DEFAULT_CAGE);
+			queue(MIDDLE_POS);
 			break;
 		case BACK_90:
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(HOLD_CUBE);
+			queue(MAX_CLKWISE);
+			queue(DEFAULT_CAGE);
+			queue(MIDDLE_POS);
 
 			break;
 		case LEFT_90_A:
+			queue(MAX_CLKWISE);
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(HOLD_CUBE);
+			queue(MIDDLE_POS);
+			queue(DEFAULT_CAGE);
 
 			break;
 		case LEFT_180:
+			queue(MAX_CLKWISE);
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(HOLD_CUBE);
+			queue(MAX_REVERSE);
+			queue(DEFAULT_CAGE);
+			queue(MIDDLE_POS);
 
 			break;
 		case LEFT_90:
+			queue(MAX_CLKWISE);
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(MAX_REVERSE);
+			queue(HOLD_CUBE);
+			queue(MIDDLE_POS);
+			queue(DEFAULT_CAGE);
 
 			break;
 		case RIGHT_90_A:
-
+			queue(MAX_REVERSE);
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(MAX_CLKWISE);
+			queue(HOLD_CUBE);
+			queue(MIDDLE_POS);
+			queue(DEFAULT_CAGE);
 			break;
 		case RIGHT_180:
-
+			queue(MAX_REVERSE);
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(HOLD_CUBE);
+			queue(MAX_CLKWISE);
+			queue(DEFAULT_CAGE);
+			queue(MIDDLE_POS);
 			break;
 		case RIGHT_90:
-
+			queue(MAX_REVERSE);
+			queue(FLIP_UP);
+			queue(DEFAULT_CAGE);
+			queue(HOLD_CUBE);
+			queue(MIDDLE_POS);
+			queue(DEFAULT_CAGE);
 			break;
 		case GAUCHE_90:
-
+			queue(MAX_REVERSE);
 			break;
 		case DROITE_90:
-
+			queue(MAX_CLKWISE);
 			break;
 		case FLIP:
-
+			queue(FLIP_UP);
 			break;
-		case READING_POSITION:
 
-			break;
 		case DEFAULT_POS:
-
+			queue(DEFAULT_CAGE);
+			queue(MIDDLE_POS);
 			break;
 
 	}
@@ -162,33 +273,32 @@ void CUBE_SERVO_init(){
 
 void CUBE_SERVO_handle_primary(cube_servo_primary_mvt_e mvt){
 	switch(mvt){
-	case CLOCKWISE_90 :
-		//TODO
-		break;
-	case REVERSE_90 :
-		//TODO
-		break;
-	case HOLD_CUBE :
-		//TODO
-		break;
-	case FLIP_UP :
-		//TODO
-		break;
-	case FLIP_DOWN :
-		//TODO
-		break;
-	case SCAN_POS :
-		//TODO
-		break;
-	case DEFAULT_CAGE :
-		//TODO
-		break;
+		case MAX_CLKWISE :
+			CUBE_SERVO_support_set_position(MAX_CLKWISE_POS_VAL);
+			break;
+		case MAX_REVERSE :
+			CUBE_SERVO_support_set_position(MAX_REVERSE_POS_VAL);
+			break;
+		case MIDDLE_POS:
+			CUBE_SERVO_support_set_position(MIDDLE_POS_VALUE_VAL);
+			break;
+
+		case HOLD_CUBE :
+			CUBE_SERVO_cage_set_position(HOLD_CUBE_POS_VAL);
+			break;
+		case FLIP_UP :
+			CUBE_SERVO_cage_set_position(FLIP_UP_POS_VAL);
+			break;
+
+		case DEFAULT_CAGE :
+			CUBE_SERVO_cage_set_position(DEFAULT_CAGE_POS_VAL);
+			break;
 	}
 }
 
 void CUBE_SERVO_queue(cube_servo_primary_mvt_e mvt){
 	queue_pointer ++;
-	primary_mvt_list[i] = mvt;
+	primary_mvt_list[queue_pointer] = mvt;
 }
 
 void CUBE_SERVO_unqueue(){
@@ -202,7 +312,7 @@ void CUBE_SERVO_unqueue(){
 void CUBE_SERVO_support_set_position(uint16_t position){
 	if(position > 100)
 		position = 100; //écretage si l'utilisateur demande plus de 100%
-	current_position = position;
+
 
 	TIMER_set_duty(TIMER1_ID, TIM_CHANNEL_1, position+100);
 
@@ -210,7 +320,7 @@ void CUBE_SERVO_support_set_position(uint16_t position){
 void CUBE_SERVO_cage_set_position(uint16_t position){
 	if(position > 100)
 		position = 100; //écretage si l'utilisateur demande plus de 100%
-	current_position = position;
+
 
 	TIMER_set_duty(TIMER1_ID, TIM_CHANNEL_2, position+100);
 

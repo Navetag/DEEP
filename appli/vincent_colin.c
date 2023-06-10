@@ -11,6 +11,8 @@
 #include "cam.h"
 #include "cube_types.h"
 
+
+
 typedef enum{
 	VINCENT_INIT,
 	VINCENT_RESET,
