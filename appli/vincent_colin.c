@@ -225,7 +225,7 @@ modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation
 		case VINCENT_MODELING_PHASE_0: //Init
 			state = VINCENT_MODELING_PHASE_1;
 			break;
-		case VINCENT_MODELING_PHASE_1: //Default settings
+		case VINCENT_MODELING_PHASE_1: //Default pos + LED ON
 			if(entrance){
 				CAM_askFor(CAM_LED_PARTIAL_ON);
 				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_POS);
@@ -364,8 +364,10 @@ modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation
 				CUBE_SERVO_addMvt(CUBE_SERVO_GAUCHE_90);
 				CUBE_SERVO_addMvt(CUBE_SERVO_FLIP);
 				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_POS);
+				CAM_askFor(CAM_LED_OFF);
 			}
-			else if(CUBE_SERVO_getState() == CUBE_SERVO_FINISHED){
+			else if(CAM_isReady() && CUBE_SERVO_getState() == CUBE_SERVO_FINISHED){
+				CAM_flush();
 				state = VINCENT_MODELING_PHASE_14;
 			}
 			break;
