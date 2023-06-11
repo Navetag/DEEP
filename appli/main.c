@@ -64,6 +64,21 @@ int main(void)
 
 	while(1)	//boucle de tÃ¢che de fond
 	{
+
+		/*
+		 * TODO
+		 * EVAN
+		 * - Petites corrections cube-servo.c
+		 * - Mouvements -> cube en pos initiale ?
+		 * - Nouveaux mouvements dispo : flip down, rot 0 etc
+		 *
+		 * ARMAND
+		 * - Elaboration tests des modules
+		 * 		- Récupération d'une face pixy : servo pos default + led ON + get Face
+		 *		- Modélisation du cube : toute la modélisation (cube_s complete)
+		 *		- Fonctions bloquantes ?
+		 *		- Machine a état simple de vincent
+		 */
 		VINCENT_process();
 	}
 }
