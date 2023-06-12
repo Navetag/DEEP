@@ -16,6 +16,10 @@ void VINCENT_process(void);
 
 void VINCENT_testPixy(void); //Fonction bloquante
 
+void VINCENT_testServos(void); //Fonction bloquante
+
+void VINCENT_testScreen(void); //Fonction bloquante
+
 #endif
 
 #endif /* VINCENT_COLIN_H_ */
