@@ -13,7 +13,7 @@
 
 /*
  * =====================================================================================
- * Types privés
+ * Types privï¿½s
  * =====================================================================================
  */
 
@@ -54,7 +54,7 @@ typedef enum{
 
 /*
  * =====================================================================================
- * Prototypes privés
+ * Prototypes privï¿½s
  * =====================================================================================
  */
 
@@ -106,7 +106,7 @@ void VINCENT_testPixy(void){while(1){
 			}
 			else if(CAM_isReady()){
 				CAM_flush();
-				state = VINCENT_MODELING;
+				state = VINCENT_RESOLVE_SELECTED;
 			}
 			break;
 		case VINCENT_RESOLVE_SELECTED:
@@ -284,7 +284,7 @@ void VINCENT_testScreen(void){while(1){
 
 /*
  * =====================================================================================
- * Fonctions privées
+ * Fonctions privï¿½es
  * =====================================================================================
  */
 
@@ -441,7 +441,7 @@ modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation
 			else if(CAM_isReady()){
 				CAM_getFace(face);
 				VINCENT_copyFace(cube->up, face);
-				CAM_flush(); //Mesure de précaution
+				CAM_flush(); //Mesure de prï¿½caution
 				state = VINCENT_MODELING_PHASE_3;
 				return_value = VINCENT_MODELING_NEW_FACE;
 			}
@@ -462,7 +462,7 @@ modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation
 			else if(CAM_isReady()){
 				CAM_getFace(face);
 				VINCENT_copyFace(cube->back, face);
-				CAM_flush(); //Mesure de précaution
+				CAM_flush(); //Mesure de prï¿½caution
 				state = VINCENT_MODELING_PHASE_5;
 				return_value = VINCENT_MODELING_NEW_FACE;
 			}
@@ -483,7 +483,7 @@ modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation
 			else if(CAM_isReady()){
 				CAM_getFace(face);
 				VINCENT_copyFace(cube->down, face);
-				CAM_flush(); //Mesure de précaution
+				CAM_flush(); //Mesure de prï¿½caution
 				state = VINCENT_MODELING_PHASE_7;
 				return_value = VINCENT_MODELING_NEW_FACE;
 			}
@@ -504,7 +504,7 @@ modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation
 			else if(CAM_isReady()){
 				CAM_getFace(face);
 				VINCENT_copyFace(cube->front, face);
-				CAM_flush(); //Mesure de précaution
+				CAM_flush(); //Mesure de prï¿½caution
 				state = VINCENT_MODELING_PHASE_9;
 				return_value = VINCENT_MODELING_NEW_FACE;
 			}
@@ -526,7 +526,7 @@ modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation
 			else if(CAM_isReady()){
 				CAM_getFace(face);
 				VINCENT_copyFace(cube->left, face);
-				CAM_flush(); //Mesure de précaution
+				CAM_flush(); //Mesure de prï¿½caution
 				state = VINCENT_MODELING_PHASE_11;
 				return_value = VINCENT_MODELING_NEW_FACE;
 			}
@@ -550,7 +550,7 @@ modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation
 			else if(CAM_isReady()){
 				CAM_getFace(face);
 				VINCENT_copyFace(cube->right, face);
-				CAM_flush(); //Mesure de précaution
+				CAM_flush(); //Mesure de prï¿½caution
 				state = VINCENT_MODELING_PHASE_13;
 				return_value = VINCENT_MODELING_NEW_FACE;
 			}
