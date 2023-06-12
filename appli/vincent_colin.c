@@ -86,9 +86,199 @@ void VINCENT_process(){
 
 #if MAIN_TEST
 
-void VINCENT_testPixy(void){
+void VINCENT_testPixy(void){while(1){
+	static cube_s cube;
+	static 	vincent_state_e previous_state 	= VINCENT_INIT,
+							state 			= VINCENT_INIT;
 
-}
+	bool_e entrance = state != previous_state;
+	previous_state = state;
+
+	switch(state){
+		case VINCENT_INIT:
+			CAM_init();
+			VINCENT_initCube(&cube);
+			state = VINCENT_RESET;
+			break;
+		case VINCENT_RESET:
+			if(entrance){
+				CAM_askFor(CAM_LED_OFF);
+			}
+			else if(CAM_isReady()){
+				CAM_flush();
+				state = VINCENT_MODELING;
+			}
+			break;
+		case VINCENT_RESOLVE_SELECTED:
+			if(entrance){
+				CAM_askFor(CAM_LED_PARTIAL_ON);
+			}
+			else if(CAM_isReady()){
+				CAM_flush();
+				state = VINCENT_MODELING;
+			}
+			break;
+		case VINCENT_MODELING:
+			if(entrance){
+				VINCENT_initCube(&cube);
+				CAM_askFor(CAM_FACE);
+			}
+			else if(CAM_isReady()){
+				CAM_getFace(cube.up);
+				state = VINCENT_RESET;
+			}
+			break;
+		default:
+			state = VINCENT_RESET;
+			break;
+	}
+}}
+
+void VINCENT_testServos(void){while(1){
+	CUBE_SERVO_process();
+
+	static 	vincent_state_e previous_state 	= VINCENT_INIT,
+							state 			= VINCENT_INIT;
+
+	bool_e entrance = state != previous_state;
+	previous_state = state;
+
+	switch(state){
+		case VINCENT_INIT:
+			state = VINCENT_RESET;
+			break;
+		case VINCENT_RESET:
+			state = VINCENT_MODELING;
+			break;
+		case VINCENT_MODELING:
+			if(entrance){
+				//Default
+				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_POS);
+				//Flip
+				CUBE_SERVO_addMvt(CUBE_SERVO_FLIP);
+				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_CAGE_COMPLEX);
+				//Flip
+				CUBE_SERVO_addMvt(CUBE_SERVO_FLIP);
+				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_CAGE_COMPLEX);
+				//Flip
+				CUBE_SERVO_addMvt(CUBE_SERVO_FLIP);
+				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_CAGE_COMPLEX);
+				//Left, flip
+				CUBE_SERVO_addMvt(CUBE_SERVO_DROITE_90);
+				CUBE_SERVO_addMvt(CUBE_SERVO_FLIP);
+				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_CAGE_COMPLEX);
+				//Right, flip, flip
+				CUBE_SERVO_addMvt(CUBE_SERVO_GAUCHE_90);
+				CUBE_SERVO_addMvt(CUBE_SERVO_FLIP);
+				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_CAGE_COMPLEX);
+				CUBE_SERVO_addMvt(CUBE_SERVO_FLIP);
+				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_CAGE_COMPLEX);
+				//Left, flip, centered, flip
+				CUBE_SERVO_addMvt(CUBE_SERVO_DROITE_90);
+				CUBE_SERVO_addMvt(CUBE_SERVO_FLIP);
+				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_ROT_COMPLEX);
+				CUBE_SERVO_addMvt(CUBE_SERVO_FLIP);
+				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_POS);
+				//INITIAL POS !
+			}
+			else if(CUBE_SERVO_getState() == CUBE_SERVO_FINISHED){
+				state = VINCENT_RESET;
+			}
+			break;
+		default:
+			state = VINCENT_RESET;
+			break;
+	}
+}}
+
+void VINCENT_testScreen(void){while(1){
+	static cube_s cube;
+	static 	vincent_state_e previous_state 	= VINCENT_INIT,
+							state 			= VINCENT_INIT;
+
+	bool_e entrance = state != previous_state;
+	previous_state = state;
+
+	user_action_e user_action = SCREEN_getLastUserAction();
+	if(user_action == SCREEN_ACTION_CLOSE && state != VINCENT_INIT){
+		state = VINCENT_RESET;
+	}
+
+	switch(state){
+		case VINCENT_INIT:
+			VINCENT_initCube(&cube);
+			state = VINCENT_RESET;
+			break;
+		case VINCENT_RESET:
+			state = VINCENT_IDLE;
+			break;
+		case VINCENT_IDLE:
+			if(entrance){
+				SCREEN_display(SCREEN_MENU, NULL);
+			}
+			if(user_action == SCREEN_ACTION_SHUFFLE){
+				state = VINCENT_SHUFFLE_SELECTED;
+			}else if(user_action == SCREEN_ACTION_SOLVE){
+				state = VINCENT_RESOLVE_SELECTED;
+			}
+			break;
+		case VINCENT_SHUFFLE_SELECTED:
+			if(entrance){
+				SCREEN_display(SCREEN_SHUFFLING_MENU, NULL);
+			}
+			if(user_action == SCREEN_ACTION_START){
+				state = VINCENT_SHUFFLE;
+			}
+			break;
+		case VINCENT_SHUFFLE:
+			if(entrance){
+				SCREEN_display(SCREEN_SHUFFLING, NULL);
+				cube_servo_complex_mvt_e moves[] = {CUBE_SERVO_BOTTOM_180, CUBE_SERVO_LEFT_180};
+				uint8_t nb_moves = 2;
+				for(uint8_t i = 0; i < nb_moves; i++){
+					CUBE_SERVO_addMvt(moves[i]);
+				}
+			}
+			else if(CUBE_SERVO_getState() == CUBE_SERVO_FINISHED)
+				state = VINCENT_RESET;
+			break;
+		case VINCENT_RESOLVE_SELECTED:
+			if(entrance){
+				SCREEN_display(SCREEN_RESOLVING_MENU, NULL);
+			}
+			if(user_action == SCREEN_ACTION_START){
+				state = VINCENT_MODELING;
+			}
+			break;
+		case VINCENT_MODELING:
+			if(entrance){
+				SCREEN_display(SCREEN_MODELING, &cube);
+				cube_servo_complex_mvt_e moves[] = {CUBE_SERVO_BOTTOM_180, CUBE_SERVO_LEFT_180};
+				uint8_t nb_moves = 2;
+				for(uint8_t i = 0; i < nb_moves; i++){
+					CUBE_SERVO_addMvt(moves[i]);
+				}
+			}
+			else if(CUBE_SERVO_getState() == CUBE_SERVO_FINISHED)
+				state = VINCENT_RESOLVE;
+			break;
+		case VINCENT_RESOLVE:
+			if(entrance){
+				SCREEN_display(SCREEN_RESOLVING, NULL);
+				cube_servo_complex_mvt_e moves[] = {CUBE_SERVO_BOTTOM_180, CUBE_SERVO_LEFT_180};
+				uint8_t nb_moves = 2;
+				for(uint8_t i = 0; i < nb_moves; i++){
+					CUBE_SERVO_addMvt(moves[i]);
+				}
+			}
+			else if(CUBE_SERVO_getState() == CUBE_SERVO_FINISHED)
+				state = VINCENT_RESET;
+			break;
+		default:
+			state = VINCENT_RESET;
+			break;
+	}
+}}
 
 #endif
 
@@ -214,9 +404,6 @@ void VINCENT_initCube(cube_s *cube){
 }
 
 modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation){
-	/*
-	 * 					=========================== Attention, "CUBE_SERVO_DEFAULT_POS" change aussi la rotation !!!! ===========================
-	 */
 	static 	modeling_state_e 	previous_state 	= VINCENT_MODELING_PHASE_0,
 								state 			= VINCENT_MODELING_PHASE_0;
 
@@ -262,7 +449,7 @@ modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation
 		case VINCENT_MODELING_PHASE_3: //Flip
 			if(entrance){
 				CUBE_SERVO_addMvt(CUBE_SERVO_FLIP);
-				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_POS);
+				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_CAGE_COMPLEX);
 			}
 			else if(CUBE_SERVO_getState() == CUBE_SERVO_FINISHED){
 				state = VINCENT_MODELING_PHASE_4;
@@ -283,7 +470,7 @@ modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation
 		case VINCENT_MODELING_PHASE_5: //Flip
 			if(entrance){
 				CUBE_SERVO_addMvt(CUBE_SERVO_FLIP);
-				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_POS);
+				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_CAGE_COMPLEX);
 			}
 			else if(CUBE_SERVO_getState() == CUBE_SERVO_FINISHED){
 				state = VINCENT_MODELING_PHASE_6;
@@ -304,7 +491,7 @@ modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation
 		case VINCENT_MODELING_PHASE_7: //Flip
 			if(entrance){
 				CUBE_SERVO_addMvt(CUBE_SERVO_FLIP);
-				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_POS);
+				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_CAGE_COMPLEX);
 			}
 			else if(CUBE_SERVO_getState() == CUBE_SERVO_FINISHED){
 				state = VINCENT_MODELING_PHASE_8;
@@ -326,7 +513,7 @@ modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation
 			if(entrance){
 				CUBE_SERVO_addMvt(CUBE_SERVO_DROITE_90);
 				CUBE_SERVO_addMvt(CUBE_SERVO_FLIP);
-				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_POS);
+				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_CAGE_COMPLEX);
 			}
 			else if(CUBE_SERVO_getState() == CUBE_SERVO_FINISHED){
 				state = VINCENT_MODELING_PHASE_10;
@@ -344,13 +531,13 @@ modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation
 				return_value = VINCENT_MODELING_NEW_FACE;
 			}
 			break;
-		case VINCENT_MODELING_PHASE_11: //left left flip, flip
+		case VINCENT_MODELING_PHASE_11: //Left, flip, flip
 			if(entrance){
 				CUBE_SERVO_addMvt(CUBE_SERVO_GAUCHE_90);
-				CUBE_SERVO_addMvt(CUBE_SERVO_GAUCHE_90);
 				CUBE_SERVO_addMvt(CUBE_SERVO_FLIP);
+				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_CAGE_COMPLEX);
 				CUBE_SERVO_addMvt(CUBE_SERVO_FLIP);
-				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_POS);
+				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_CAGE_COMPLEX);
 			}
 			else if(CUBE_SERVO_getState() == CUBE_SERVO_FINISHED){
 				state = VINCENT_MODELING_PHASE_12;
@@ -368,12 +555,11 @@ modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation
 				return_value = VINCENT_MODELING_NEW_FACE;
 			}
 			break;
-		case VINCENT_MODELING_PHASE_13: //Right, right, flip, left, flip
+		case VINCENT_MODELING_PHASE_13: //Right, flip, centered, flip
 			if(entrance){
 				CUBE_SERVO_addMvt(CUBE_SERVO_DROITE_90);
-				CUBE_SERVO_addMvt(CUBE_SERVO_DROITE_90);
 				CUBE_SERVO_addMvt(CUBE_SERVO_FLIP);
-				CUBE_SERVO_addMvt(CUBE_SERVO_GAUCHE_90);
+				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_ROT_COMPLEX);
 				CUBE_SERVO_addMvt(CUBE_SERVO_FLIP);
 				CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_POS);
 				CAM_askFor(CAM_LED_OFF);

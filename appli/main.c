@@ -87,7 +87,6 @@ int main(void)
 
 #else
 		// Comportement de production
-
 		VINCENT_process();
 #endif
 	}
