@@ -84,7 +84,14 @@ static volatile int t;
  */
 void CUBE_SERVO_test(){
 	CUBE_SERVO_process();
-	CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_ROT_COMPLEX);
+	CUBE_SERVO_addMvt(CUBE_SERVO_FLIP_UP);
+	CUBE_SERVO_addMvt(CUBE_SERVO_FLIP_UP);
+	CUBE_SERVO_addMvt(CUBE_SERVO_FLIP_UP);
+	CUBE_SERVO_addMvt(CUBE_SERVO_FLIP_UP);
+	CUBE_SERVO_addMvt(CUBE_SERVO_FLIP_UP);
+
+
+
 	while(1){
 		CUBE_SERVO_process();
 	}
