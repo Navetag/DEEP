@@ -27,6 +27,16 @@ typedef enum{
 
 void SCREEN_init(void);
 
+
+/*
+ * =====================================================================================
+ * Variables privées
+ * =====================================================================================
+ */
+
+static screen_type_e screen_current_display;
+static screen_type_e screen_previous_display;
+
 /*
  * =====================================================================================
  * Fonctions publiques
