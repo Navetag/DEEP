@@ -15,7 +15,7 @@
 #include "systick.h"
 #include "stm32f1_ili9341.h"
 #include "stm32f1_xpt2046.h"
-
+#include "config.h"
 
 //void TFT_Init();
 //
