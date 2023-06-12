@@ -10,8 +10,8 @@
 #include "stm32f1xx_hal.h"
 
 //Main define
-#define MAIN_TEST 1
-
+#define MAIN_TEST 0
+#define SERVO_TEST 1
 //Choix de la cible utilisée.
 #define NUCLEO	0
 #define BLUEPILL 1

@@ -10,7 +10,7 @@
 
 #include "macro_types.h"
 
-#define CUBE_SERVO_TIME_WAIT_STATE_MS 	1000
+#define CUBE_SERVO_TIME_WAIT_STATE_MS 	10000
 
 #define CUBE_SERVO_PERIOD_TIMER			10
 
@@ -79,5 +79,5 @@ void CUBE_SERVO_addMvt(cube_servo_complex_mvt_e mvt);
     Renvoie l'état de la machine servo
 */
 cube_servo_state_e CUBE_SERVO_getState(void);
-
+void CUBE_SERVO_test(void);
 #endif /* CUBE_SERVO_H_ */

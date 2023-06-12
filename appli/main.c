@@ -74,14 +74,16 @@ int main(void)
 		 *
 		 * ARMAND
 		 * - Elaboration tests des modules
-		 * 		- Récupération d'une face pixy : servo pos default + led ON + get Face
-		 *		- Modélisation du cube : toute la modélisation (cube_s complete)
+		 * 		- Rï¿½cupï¿½ration d'une face pixy : servo pos default + led ON + get Face
+		 *		- Modï¿½lisation du cube : toute la modï¿½lisation (cube_s complete)
 		 *		- Fonctions bloquantes ?
-		 *		- Machine a état simple de vincent
+		 *		- Machine a ï¿½tat simple de vincent
 		 */
-
+#if SERVO_TEST
+		CUBE_SERVO_test();
+#endif
 #if MAIN_TEST
-		// Tests à effectuer
+		// Tests ï¿½ effectuer
 
 #else
 		// Comportement de production

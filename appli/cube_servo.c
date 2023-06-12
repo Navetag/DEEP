@@ -82,7 +82,13 @@ static volatile int t;
  * Fonctions publiques
  * =====================================================================================
  */
-
+void CUBE_SERVO_test(){
+	CUBE_SERVO_process();
+	CUBE_SERVO_addMvt(CUBE_SERVO_DEFAULT_ROT_COMPLEX);
+	while(1){
+		CUBE_SERVO_process();
+	}
+}
 void CUBE_SERVO_process(){
 	bool_e entrance = current_state != previous_state;
 	previous_state = current_state;
@@ -361,6 +367,7 @@ void CUBE_SERVO_handlePrimary(cube_servo_primary_mvt_e mvt){
 			CUBE_SERVO_cageSetPosition(CUBE_SERVO_DEFAULT_CAGE_POS_VAL);
 			break;
 	}
+	CUBE_SERVO_unqueue();
 }
 
 void CUBE_SERVO_queue(cube_servo_primary_mvt_e mvt){
