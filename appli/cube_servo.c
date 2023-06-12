@@ -88,7 +88,6 @@ void CUBE_SERVO_process(){
 	previous_state = current_state;
 
 	switch(current_state){
-
 		case CUBE_SERVO_INIT :
 			Systick_add_callback_function(&CUBE_SERVO_waitingTimer);
 			CUBE_SERVO_init();
@@ -99,17 +98,15 @@ void CUBE_SERVO_process(){
 			cube_cage_position = CUBE_SERVO_DEFAULT_CAGE;
 			current_state = CUBE_SERVO_MAKE;
 			break;
-
 		case CUBE_SERVO_MAKE :
 			if(queue_pointer < 0){
 				current_state = CUBE_SERVO_FINISHED;
 			}
 			else{
 				CUBE_SERVO_handlePrimary(primary_mvt_list[0]);
-				current_state = CUBE_SERVO_WAIT;	//Pas "CUBE_SERVO_WAIT_SERVO" ?
+				current_state = CUBE_SERVO_WAIT_SERVO;
 			}
 			break;
-
 		case CUBE_SERVO_WAIT_SERVO :
 			if(entrance){
 				t = CUBE_SERVO_TIME_WAIT_STATE_MS;
@@ -118,11 +115,8 @@ void CUBE_SERVO_process(){
 				current_state = CUBE_SERVO_MAKE;
 			}
 			break;
-
 		case CUBE_SERVO_FINISHED :
-													//If queue_pointer >= 0 : state = MAKE ?
 			break;
-
 		default :
 			break;
 	}
@@ -312,7 +306,7 @@ void CUBE_SERVO_addMvt(cube_servo_complex_mvt_e mvt){
 		default:
 			break;
 	}
-	current_state = MAKE;
+	current_state = CUBE_SERVO_MAKE;
 }
 
 cube_servo_state_e CUBE_SERVO_getState(void){
@@ -326,24 +320,18 @@ cube_servo_state_e CUBE_SERVO_getState(void){
  */
 
 void CUBE_SERVO_init(){
-
-
-
 	//initialisation et lancement du timer1 à une période de 10 ms
-	TIMER_run_us(TIMER1_ID, PERIOD_TIMER*1000, FALSE); //10000us = 10ms
+	TIMER_run_us(TIMER1_ID, CUBE_SERVO_PERIOD_TIMER*1000, FALSE); //10000us = 10ms
+
 	//activation du signal PWM sur le canal 1 du timer 1 (broche PA8)
 	TIMER_enable_PWM(TIMER1_ID, TIM_CHANNEL_1, 150, FALSE, FALSE);
 	//rapport cyclique reglé pour une position servo de 50%
 	CUBE_SERVO_supportSetPosition(CUBE_SERVO_MIDDLE_POS_VAL);
 
-
 	//activation du signal PWM sur le canal 1 du timer 1 (broche PA9)
 	TIMER_enable_PWM(TIMER1_ID, TIM_CHANNEL_2, 150, FALSE, FALSE);
 	//rapport cyclique reglé pour une position servo de 50%
 	CUBE_SERVO_cageSetPosition(CUBE_SERVO_DEFAULT_CAGE_POS_VAL);
-
-
-
 }
 
 void CUBE_SERVO_waitingTimer(){
@@ -359,7 +347,7 @@ void CUBE_SERVO_handlePrimary(cube_servo_primary_mvt_e mvt){
 			CUBE_SERVO_supportSetPosition(CUBE_SERVO_MAX_REVERSE_POS_VAL);
 			break;
 		case CUBE_SERVO_MIDDLE_POS:
-			CUBE_SERVO_supportSetPosition(CUBE_SERVO_MIDDLE_POS_VALUE_VAL);
+			CUBE_SERVO_supportSetPosition(CUBE_SERVO_MIDDLE_POS_VAL);
 			break;
 
 		case CUBE_SERVO_HOLD_CUBE :
