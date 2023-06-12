@@ -312,7 +312,7 @@ void CUBE_SERVO_addMvt(cube_servo_complex_mvt_e mvt){
 		default:
 			break;
 	}
-	current_state = CUBE_SERVO_MAKE;
+	if(current_state == CUBE_SERVO_FINISHED) current_state = CUBE_SERVO_MAKE;
 }
 
 cube_servo_state_e CUBE_SERVO_getState(void){

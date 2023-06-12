@@ -11,11 +11,8 @@
 
 //Main define
 #define MAIN_TEST 0
-<<<<<<< HEAD
 #define SERVO_TEST 1
-=======
 
->>>>>>> 8cf4a6f0b65ad883e84ef19e20b43e6cd140e121
 //Choix de la cible utilisée.
 #define NUCLEO	0
 #define BLUEPILL 1
