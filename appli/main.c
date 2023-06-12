@@ -6,6 +6,7 @@
   * @brief   Default main function.
   ******************************************************************************
 */
+
 #include <vincent_colin.h>
 #include "stm32f1xx_hal.h"
 #include "stm32f1_sys.h"
@@ -14,7 +15,7 @@
 #include "systick.h"
 #include "stm32f1_ili9341.h"
 #include "stm32f1_xpt2046.h"
-
+#include "config.h"
 
 //void TFT_Init();
 //
@@ -64,7 +65,6 @@ int main(void)
 
 	while(1)	//boucle de t√¢che de fond
 	{
-
 		/*
 		 * TODO
 		 * EVAN
@@ -79,6 +79,14 @@ int main(void)
 		 *		- Fonctions bloquantes ?
 		 *		- Machine a Ètat simple de vincent
 		 */
+
+#if MAIN_TEST
+		// Tests ‡ effectuer
+
+#else
+		// Comportement de production
+
 		VINCENT_process();
+#endif
 	}
 }

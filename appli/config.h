@@ -9,6 +9,9 @@
 #define CONFIG_H_
 #include "stm32f1xx_hal.h"
 
+//Main define
+#define MAIN_TEST 1
+
 //Choix de la cible utilisée.
 #define NUCLEO	0
 #define BLUEPILL 1

@@ -68,6 +68,10 @@ bool_e VINCENT_cubeResolved(cube_s *cube);
 
 void VINCENT_copyFace(face_t dest_face, face_t src_face);
 
+#if MAIN_TEST
+
+#endif
+
 /*
  * =====================================================================================
  * Fonctions publiques
@@ -79,6 +83,14 @@ void VINCENT_process(){
 	SCREEN_process();
 	VINCENT_state();
 }
+
+#if MAIN_TEST
+
+void VINCENT_testPixy(void){
+
+}
+
+#endif
 
 /*
  * =====================================================================================
@@ -404,3 +416,7 @@ void VINCENT_copyFace(face_t dest_face, face_t src_face){
 		}
 	}
 }
+
+#if MAIN_TEST
+
+#endif
