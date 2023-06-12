@@ -16,7 +16,7 @@
 
 #define CUBE_SERVO_MAX_REVERSE_POS_VAL	0
 #define CUBE_SERVO_MAX_CLKWISE_POS_VAL	100
-#define CUBE_SERVO_MIDDLE_POS_VALUE_VAL	50
+#define CUBE_SERVO_MIDDLE_POS_VAL		50
 
 #define CUBE_SERVO_FLIP_UP_POS_VAL		50
 #define CUBE_SERVO_DEFAULT_CAGE_POS_VAL	20
@@ -51,7 +51,8 @@ typedef enum{
 	CUBE_SERVO_DROITE_90,
 	CUBE_SERVO_FLIP,
 
-	CUBE_SERVO_DEFAULT_POS
+	CUBE_SERVO_DEFAULT_ROT_COMPLEX,
+	CUBE_SERVO_DEFAULT_CAGE_COMPLEX
 }cube_servo_complex_mvt_e;
 
 typedef enum{
@@ -71,7 +72,7 @@ void CUBE_SERVO_process(void);
 /*
     Ajoute un mouvement dans la pile
 */
-bool_e CUBE_SERVO_addMvt(cube_servo_complex_mvt_e mvt);
+void CUBE_SERVO_addMvt(cube_servo_complex_mvt_e mvt);
 
 /*
     Renvoie l'état de la machine servo

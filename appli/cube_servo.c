@@ -106,7 +106,7 @@ void CUBE_SERVO_process(){
 			}
 			else{
 				CUBE_SERVO_handlePrimary(primary_mvt_list[0]);
-				current_state = CUBE_SERVO_MAKE;	//Pas "CUBE_SERVO_WAIT_SERVO" ?
+				current_state = CUBE_SERVO_WAIT;	//Pas "CUBE_SERVO_WAIT_SERVO" ?
 			}
 			break;
 
@@ -128,7 +128,7 @@ void CUBE_SERVO_process(){
 	}
 }
 
-bool_e CUBE_SERVO_addMvt(cube_servo_complex_mvt_e mvt){
+void CUBE_SERVO_addMvt(cube_servo_complex_mvt_e mvt){
 	switch(mvt){
 		case CUBE_SERVO_BOTTOM_90_A:
 			CUBE_SERVO_queue(CUBE_SERVO_HOLD_CUBE);
@@ -303,9 +303,16 @@ bool_e CUBE_SERVO_addMvt(cube_servo_complex_mvt_e mvt){
 			CUBE_SERVO_queue(CUBE_SERVO_DEFAULT_CAGE);
 			CUBE_SERVO_queue(CUBE_SERVO_MIDDLE_POS);
 			break;
+		case CUBE_SERVO_DEFAULT_CAGE_COMPLEX:
+			CUBE_SERVO_queue(CUBE_SERVO_DEFAULT_CAGE);
+			break;
+		case CUBE_SERVO_DEFAULT_ROT_COMPLEX:
+			CUBE_SERVO_queue(CUBE_SERVO_MIDDLE_POS);
+			break;
 		default:
 			break;
 	}
+	current_state = MAKE;
 }
 
 cube_servo_state_e CUBE_SERVO_getState(void){
@@ -320,26 +327,22 @@ cube_servo_state_e CUBE_SERVO_getState(void){
 
 void CUBE_SERVO_init(){
 
-	/*
 
-	TODO SERVO_set_position non défini ?
 
 	//initialisation et lancement du timer1 à une période de 10 ms
 	TIMER_run_us(TIMER1_ID, PERIOD_TIMER*1000, FALSE); //10000us = 10ms
 	//activation du signal PWM sur le canal 1 du timer 1 (broche PA8)
 	TIMER_enable_PWM(TIMER1_ID, TIM_CHANNEL_1, 150, FALSE, FALSE);
 	//rapport cyclique reglé pour une position servo de 50%
-	SERVO_set_position(50);
+	CUBE_SERVO_supportSetPosition(CUBE_SERVO_MIDDLE_POS_VAL);
 
 
-	//initialisation et lancement du timer1 à une période de 10 ms
-	TIMER_run_us(TIMER1_ID, PERIOD_TIMER*1000, FALSE); //10000us = 10ms
 	//activation du signal PWM sur le canal 1 du timer 1 (broche PA9)
 	TIMER_enable_PWM(TIMER1_ID, TIM_CHANNEL_2, 150, FALSE, FALSE);
 	//rapport cyclique reglé pour une position servo de 50%
-	SERVO_set_position(50);
+	CUBE_SERVO_cageSetPosition(CUBE_SERVO_DEFAULT_CAGE_POS_VAL);
 
-	*/
+
 
 }
 
