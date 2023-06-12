@@ -86,6 +86,10 @@ void VINCENT_process(){
 
 #if MAIN_TEST
 
+void VINCENT_testPixy(void){
+
+}
+
 #endif
 
 /*

@@ -81,12 +81,12 @@ int main(void)
 		 */
 
 #if MAIN_TEST
+		// Tests à effectuer
+
+#else
 		// Comportement de production
 
 		VINCENT_process();
-#else
-		// Tests à effectuer
-
 #endif
 	}
 }
