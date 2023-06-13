@@ -218,7 +218,7 @@ void VINCENT_testScreen(void){while(1){
 	bool_e entrance = state != previous_state;
 	previous_state = state;
 
-	user_action_e user_action = SCREEN_getLastUserAction();
+	screen_action_e user_action = SCREEN_getLastUserAction();
 	if(user_action == SCREEN_ACTION_CLOSE && state != VINCENT_INIT){
 		state = VINCENT_RESET;
 	}
@@ -237,7 +237,7 @@ void VINCENT_testScreen(void){while(1){
 			}
 			if(user_action == SCREEN_ACTION_SHUFFLE){
 				state = VINCENT_SHUFFLE_SELECTED;
-			}else if(user_action == SCREEN_ACTION_SOLVE){
+			}else if(user_action == SCREEN_ACTION_RESOLVE){
 				state = VINCENT_RESOLVE_SELECTED;
 			}
 			break;
@@ -316,7 +316,7 @@ void VINCENT_state(){
 	bool_e entrance = state != previous_state;
 	previous_state = state;
 
-	user_action_e user_action = SCREEN_getLastUserAction();
+	screen_action_e user_action = SCREEN_getLastUserAction();
 	if(user_action == SCREEN_ACTION_CLOSE && state != VINCENT_INIT){
 		state = VINCENT_RESET;
 	}
@@ -343,7 +343,7 @@ void VINCENT_state(){
 			}
 			if(user_action == SCREEN_ACTION_SHUFFLE){
 				state = VINCENT_SHUFFLE_SELECTED;
-			}else if(user_action == SCREEN_ACTION_SOLVE){
+			}else if(user_action == SCREEN_ACTION_RESOLVE){
 				state = VINCENT_RESOLVE_SELECTED;
 			}
 			break;
