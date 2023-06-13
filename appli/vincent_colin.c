@@ -86,7 +86,26 @@ void VINCENT_process(){
 
 #if MAIN_TEST
 
-void VINCENT_testPixy(void){while(1){
+void VINCENT_testPixy2(){
+	static cube_s cube;
+	CAM_init();
+	while(1){
+		CAM_askFor(CAM_LED_OFF);
+		HAL_Delay(100);
+		CAM_flush();
+		HAL_Delay(1000);
+		CAM_askFor(CAM_LED_PARTIAL_ON);
+		HAL_Delay(100);
+		CAM_flush();
+		CAM_askFor(CAM_FACE);
+		HAL_Delay(100);
+		VINCENT_initCube(&cube);
+		CAM_getFace(cube.up);
+		HAL_Delay(1000);
+	}
+}
+
+void VINCENT_testPixy(){while(1){
 	static cube_s cube;
 	static 	vincent_state_e previous_state 	= VINCENT_INIT,
 							state 			= VINCENT_INIT;

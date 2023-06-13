@@ -14,6 +14,8 @@ void VINCENT_process(void);
 
 #if MAIN_TEST
 
+void VINCENT_testPixy2(void); //Fonction bloquante
+
 void VINCENT_testPixy(void); //Fonction bloquante
 
 void VINCENT_testServos(void); //Fonction bloquante
