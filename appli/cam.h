@@ -31,6 +31,6 @@ void CAM_askFor(request_type_e request);
 
 void CAM_flush(void);
 
-void CAM_getFace(face_t face);
+void CAM_getFace(block_type_e face[3][3]);
 
 #endif /* CAM_H_ */

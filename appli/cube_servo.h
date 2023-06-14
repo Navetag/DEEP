@@ -14,9 +14,11 @@
 
 #define CUBE_SERVO_PERIOD_TIMER			10
 
-#define CUBE_SERVO_MAX_REVERSE_POS_VAL	0
-#define CUBE_SERVO_MAX_CLKWISE_POS_VAL	500
-#define CUBE_SERVO_MIDDLE_POS_VAL		115
+#define CUBE_SERVO_MAX_REVERSE_POS_VAL_PLUS		0
+#define CUBE_SERVO_MAX_REVERSE_POS_VAL			10
+#define CUBE_SERVO_MAX_CLKWISE_POS_VAL			500
+#define CUBE_SERVO_MIDDLE_POS_VAL				115
+#define CUBE_SERVO_MIDDLE_POS_VAL_PLUS			130
 
 #define CUBE_SERVO_FLIP_UP_POS_VAL		0
 #define CUBE_SERVO_DEFAULT_CAGE_POS_VAL	45
@@ -48,7 +50,7 @@ typedef enum{
 	CUBE_SERVO_RIGHT_90,
 
 	CUBE_SERVO_GAUCHE_90,
-	CUBE_SERVO_DROITE_90,
+	CUBE_SERVO_DROITE_90, //deprecated
 	CUBE_SERVO_FLIP,
 
 	CUBE_SERVO_DEFAULT_POS,
@@ -79,5 +81,8 @@ void CUBE_SERVO_addMvt(cube_servo_complex_mvt_e mvt);
     Renvoie l'état de la machine servo
 */
 cube_servo_state_e CUBE_SERVO_getState(void);
+
+void CUBE_SERVO_flush(void);
+
 void CUBE_SERVO_test(void);
 #endif /* CUBE_SERVO_H_ */

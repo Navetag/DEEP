@@ -22,6 +22,8 @@ void VINCENT_testServos(void); //Fonction bloquante
 
 void VINCENT_testScreen(void); //Fonction bloquante
 
+void VINCENT_projetFacade(void); //Fontion bloquante
+
 #endif
 
 #endif /* VINCENT_COLIN_H_ */

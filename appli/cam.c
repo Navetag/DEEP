@@ -90,7 +90,7 @@ void CAM_flush(){
 	}
 }
 
-void CAM_getFace(face_t face){
+void CAM_getFace(block_type_e face[3][3]){
 
 	CAM_cleanFace(face);
 
@@ -169,12 +169,14 @@ void CAM_getBlocksReceived(blocks_received_s *blocks_received){
 	//Reception de la réponse supposément reçue
 		uint8_t buf[6+14*CAM_MAX_BLOCKS];
 		uint16_t buf_index = 0;
+		blocks_received->nb_blocks_received = 0;
 
 		while(UART_data_ready(UART2_ID) && buf_index < 6+14*CAM_MAX_BLOCKS)
 		{
 			buf[buf_index] = UART_getc(UART2_ID);
 			buf_index++;
 		}
+		if(!buf_index) return;
 
 		//Le 4eme octet de la réponse indique la longueur du payload
 		blocks_received->nb_blocks_received = buf[3]/14;

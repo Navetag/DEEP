@@ -46,6 +46,8 @@ int main(void)
 {
 	//Initialisation de la couche logicielle HAL (Hardware Abstraction Layer)
 	//Cette ligne doit rester la première étape de la fonction main().
+
+
 	HAL_Init();
 
 
@@ -84,6 +86,7 @@ int main(void)
 #endif
 #if MAIN_TEST
 		// Tests � effectuer
+		VINCENT_projetFacade();
 
 #else
 		// Comportement de production

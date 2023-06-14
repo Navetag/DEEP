@@ -28,12 +28,12 @@ typedef enum{
 typedef block_type_e face_t[3][3];
 
 typedef struct{
-	face_t up;
-	face_t down;
-	face_t front;
-	face_t back;
-	face_t left;
-	face_t right;
+	block_type_e up[3][3];
+	block_type_e down[3][3];
+	block_type_e front[3][3];
+	block_type_e back[3][3];
+	block_type_e left[3][3];
+	block_type_e right[3][3];
 }cube_s;
 
 #endif /* CUBE_TYPES_H_ */
