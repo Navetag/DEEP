@@ -1,9 +1,11 @@
-/*
- * vincentColin.h
- *
- *  Created on: 8 juin 2023
- *      Author: caill
- */
+/**
+  ******************************************************************************
+  * @file    main.c
+  * @author  Nirgal
+  * @date    03-July-2019
+  * @brief   Default main function.
+  ******************************************************************************
+*/
 
 #ifndef VINCENT_COLIN_H_
 #define VINCENT_COLIN_H_

@@ -1,8 +1,8 @@
-/*
- * vincentColin.c
+/**
  *
- *  Created on: 8 juin 2023
- *      Author: caill
+ *\file vincent_colin.c
+ *\author caill
+ *\brief blablabf
  */
 
 #include "vincent_colin.h"
