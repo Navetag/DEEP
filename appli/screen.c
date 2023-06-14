@@ -1,8 +1,9 @@
-/*
- * screen.c
- *
- *  Created on: 10 juin 2023
- *      Author: auger
+/**
+ * @file screen.c
+ * @author armand
+ * @date 01 avril 2023
+ * @brief Sources du module screen.
+ * @version 0.1
  */
 
 #include "screen.h"
@@ -18,10 +19,14 @@
  * =====================================================================================
  */
 
+/**
+ * @enum screen_state_e
+ * @brief Etats du process du module
+ */
 typedef enum{
-	SCREEN_STATE_INIT,
-    SCREEN_STATE_WAIT,
-	SCREEN_STATE_GET_PRESSED_BUTTON
+	SCREEN_STATE_INIT,				/*!< Initialisation*/
+    SCREEN_STATE_WAIT,				/*!< Etat d'attente entre chaque action utilisateur*/
+	SCREEN_STATE_GET_PRESSED_BUTTON	/*!< Verifie les actions utilisateur*/
 }screen_state_e;
 
 /*
@@ -93,7 +98,6 @@ void SCREEN_display(screen_type_e type, cube_s * cube){
 			break;
 	}
 }
-
 
 /*
     Machine � �tat

@@ -1,8 +1,9 @@
 /**
- *
- *@file cam.c
- *@author caill
- *@brief blablabf
+ * @file cam.c
+ * @author armand
+ * @date 01 avril 2023
+ * @brief Sources du module screen.
+ * @version 0.1
  */
 
 #include "cam.h"
@@ -14,17 +15,25 @@
  * =====================================================================================
  */
 
+/**
+ * @struct block_s
+ * @brief Objet de signature d'un block de la Pixy2
+ */
 typedef struct{
-	block_type_e signature;
-	uint16_t center_x;
-	uint16_t center_y;
-	uint16_t width;
-	uint16_t height;
+	block_type_e signature; /*!< Valeur de la signature */
+	uint16_t center_x;		/*!< Abscisse du centre de la signature */
+	uint16_t center_y;		/*!< Ordonnee du centre de la signature */
+	uint16_t width;			/*!< Largeur de la signature */
+	uint16_t height;		/*!< Hauteur de la signature */
 }block_s;
 
+/**
+ * @struct blocks_received_s
+ * @brief Objet representant toutes les signatures percues par la Pixy2
+ */
 typedef struct{
-	block_s blocks[CAM_MAX_BLOCKS];
-	uint8_t nb_blocks_received;
+	block_s blocks[CAM_MAX_BLOCKS];	/*!< Tableau des signatures */
+	uint8_t nb_blocks_received;		/*!< Nombre de signatures */
 }blocks_received_s;
 
 /*
@@ -33,7 +42,7 @@ typedef struct{
  * =====================================================================================
  */
 
-void CAM_cleanFace(face_t face);
+void CAM_cleanFace(block_type_e face[3][3]);
 
 void CAM_getBlocksReceived(blocks_received_s *blocks_received);
 
@@ -156,14 +165,13 @@ void CAM_getFace(block_type_e face[3][3]){
  * =====================================================================================
  */
 
-void CAM_cleanFace(face_t face){
+void CAM_cleanFace(block_type_e face[3][3]){
 	for(uint8_t i = 0; i < 3; i++){
 		for(uint8_t j = 1; j < 3; j++){
 			face[i][j] = CUBE_WHITE;
 		}
 	}
 }
-
 
 void CAM_getBlocksReceived(blocks_received_s *blocks_received){
 	//Reception de la r�ponse suppos�ment re�ue

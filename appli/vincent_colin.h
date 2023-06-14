@@ -1,11 +1,10 @@
 /**
-  ******************************************************************************
-  * @file    main.c
-  * @author  Nirgal
-  * @date    03-July-2019
-  * @brief   Default main function.
-  ******************************************************************************
-*/
+ * @file vincent_colin.h
+ * @author armand
+ * @date 01 avril 2023
+ * @brief Header du module vincent_colin.
+ * @version 0.1
+ */
 
 #ifndef VINCENT_COLIN_H_
 #define VINCENT_COLIN_H_
@@ -16,9 +15,9 @@ void VINCENT_process(void);
 
 #if MAIN_TEST
 
-void VINCENT_testPixy2(void); //Fonction bloquante
-
 void VINCENT_testPixy(void); //Fonction bloquante
+
+void VINCENT_testPixy2(void); //Fonction bloquante
 
 void VINCENT_testServos(void); //Fonction bloquante
 

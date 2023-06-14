@@ -1,8 +1,9 @@
 /**
- *
- *\file vincent_colin.c
- *\author caill
- *\brief blablabf
+ * @file vincent_colin.c
+ * @author armand
+ * @date 01 avril 2023
+ * @brief Sources du module vincent_colin.
+ * @version 0.1
  */
 
 #include "vincent_colin.h"
@@ -17,39 +18,51 @@
  * =====================================================================================
  */
 
+/**
+ * @enum vincent_state_e
+ * @brief Etats du projet
+ */
 typedef enum{
-	VINCENT_INIT,
-	VINCENT_RESET,
-	VINCENT_IDLE,
-	VINCENT_SHUFFLE_SELECTED,
-	VINCENT_SHUFFLE,
-	VINCENT_RESOLVE_SELECTED,
-	VINCENT_MODELING,
-	VINCENT_RESOLVE
+	VINCENT_INIT,				/*!< Initialisation*/
+	VINCENT_RESET,				/*!< Remise en etat par defaut*/
+	VINCENT_IDLE,				/*!< Etat d'attente, inactif*/
+	VINCENT_SHUFFLE_SELECTED,	/*!< Melange selectionne*/
+	VINCENT_SHUFFLE,			/*!< En cours de melange*/
+	VINCENT_RESOLVE_SELECTED,	/*!< Resolution selectionnee*/
+	VINCENT_MODELING,			/*!< En cours de modelisation*/
+	VINCENT_RESOLVE				/*!< En cours de resolution*/
 }vincent_state_e;
 
+/**
+ * @enum modeling_result_e
+ * @brief Resultat du process de modelisation du Rubik's cube
+ */
 typedef enum {
-	VINCENT_MODELING_FINISHED,
-	VINCENT_MODELING_PROCESSING,
-	VINCENT_MODELING_NEW_FACE
+	VINCENT_MODELING_FINISHED,	/*!< Modelisation terminee*/
+	VINCENT_MODELING_PROCESSING,/*!< Modelisation en cours*/
+	VINCENT_MODELING_NEW_FACE	/*!< Une nouvelle face a ete modelisee*/
 }modeling_result_e;
 
+/**
+ * @enum modeling_state_e
+ * @brief Phases de modelisation du Rubik's cube
+ */
 typedef enum{
-	VINCENT_MODELING_PHASE_0,
-	VINCENT_MODELING_PHASE_1,
-	VINCENT_MODELING_PHASE_2,
-	VINCENT_MODELING_PHASE_3,
-	VINCENT_MODELING_PHASE_4,
-	VINCENT_MODELING_PHASE_5,
-	VINCENT_MODELING_PHASE_6,
-	VINCENT_MODELING_PHASE_7,
-	VINCENT_MODELING_PHASE_8,
-	VINCENT_MODELING_PHASE_9,
-	VINCENT_MODELING_PHASE_10,
-	VINCENT_MODELING_PHASE_11,
-	VINCENT_MODELING_PHASE_12,
-	VINCENT_MODELING_PHASE_13,
-	VINCENT_MODELING_PHASE_14,
+	VINCENT_MODELING_PHASE_0,	/*!< Initialisation*/
+	VINCENT_MODELING_PHASE_1,	/*!< Position par defaut, LED allumees*/
+	VINCENT_MODELING_PHASE_2,	/*!< Modelisation face haute*/
+	VINCENT_MODELING_PHASE_3,	/*!< Flip*/
+	VINCENT_MODELING_PHASE_4,	/*!< Modelisation face arriere*/
+	VINCENT_MODELING_PHASE_5,	/*!< Flip*/
+	VINCENT_MODELING_PHASE_6,	/*!< Modelisation face basse*/
+	VINCENT_MODELING_PHASE_7,	/*!< Flip*/
+	VINCENT_MODELING_PHASE_8,	/*!< Modelisation face avant*/
+	VINCENT_MODELING_PHASE_9,	/*!< Gauche, Flip*/
+	VINCENT_MODELING_PHASE_10,	/*!< Modelisation face droite*/
+	VINCENT_MODELING_PHASE_11,	/*!< Droite, Flip, Flip*/
+	VINCENT_MODELING_PHASE_12,	/*!< Modelisation face gauche*/
+	VINCENT_MODELING_PHASE_13,	/*!< Gauche, Flip, Centre, Flip, LED eteintes*/
+	VINCENT_MODELING_PHASE_14,	/*!< Termine*/
 }modeling_state_e;
 
 /*
@@ -65,8 +78,6 @@ void VINCENT_initCube(cube_s *cube);
 modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation);
 
 bool_e VINCENT_cubeResolved(cube_s *cube);
-
-void VINCENT_copyFace(face_t dest_face, face_t src_face);
 
 #if MAIN_TEST
 
@@ -88,7 +99,7 @@ void VINCENT_process(){
 
 #if MAIN_TEST
 
-void VINCENT_testPixy2(){
+void VINCENT_testPixy(){
 	static cube_s cube;
 	CAM_init();
 	while(1){
@@ -107,7 +118,7 @@ void VINCENT_testPixy2(){
 	}
 }
 
-void VINCENT_testPixy(){while(1){
+void VINCENT_testPixy2(){while(1){
 	static cube_s cube;
 	static 	vincent_state_e previous_state 	= VINCENT_INIT,
 							state 			= VINCENT_INIT;
@@ -533,8 +544,6 @@ modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation
 	static 	modeling_state_e 	previous_state 	= VINCENT_MODELING_PHASE_0,
 								state 			= VINCENT_MODELING_PHASE_0;
 
-	static face_t face;
-
 	if(*new_modelisation){
 		state = VINCENT_MODELING_PHASE_0;
 		previous_state = VINCENT_MODELING_PHASE_0;
@@ -565,8 +574,7 @@ modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation
 				CAM_askFor(CAM_FACE);
 			}
 			else if(CAM_isReady()){
-				CAM_getFace(face);
-				VINCENT_copyFace(cube->up, face);
+				CAM_getFace(cube->up);
 				CAM_flush(); //Mesure de pr�caution
 				state = VINCENT_MODELING_PHASE_3;
 				return_value = VINCENT_MODELING_NEW_FACE;
@@ -586,8 +594,7 @@ modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation
 				CAM_askFor(CAM_FACE);
 			}
 			else if(CAM_isReady()){
-				CAM_getFace(face);
-				VINCENT_copyFace(cube->back, face);
+				CAM_getFace(cube->back);
 				CAM_flush(); //Mesure de pr�caution
 				state = VINCENT_MODELING_PHASE_5;
 				return_value = VINCENT_MODELING_NEW_FACE;
@@ -607,8 +614,7 @@ modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation
 				CAM_askFor(CAM_FACE);
 			}
 			else if(CAM_isReady()){
-				CAM_getFace(face);
-				VINCENT_copyFace(cube->down, face);
+				CAM_getFace(cube->down);
 				CAM_flush(); //Mesure de pr�caution
 				state = VINCENT_MODELING_PHASE_7;
 				return_value = VINCENT_MODELING_NEW_FACE;
@@ -628,8 +634,7 @@ modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation
 				CAM_askFor(CAM_FACE);
 			}
 			else if(CAM_isReady()){
-				CAM_getFace(face);
-				VINCENT_copyFace(cube->front, face);
+				CAM_getFace(cube->front);
 				CAM_flush(); //Mesure de pr�caution
 				state = VINCENT_MODELING_PHASE_9;
 				return_value = VINCENT_MODELING_NEW_FACE;
@@ -650,8 +655,7 @@ modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation
 				CAM_askFor(CAM_FACE);
 			}
 			else if(CAM_isReady()){
-				CAM_getFace(face);
-				VINCENT_copyFace(cube->left, face);
+				CAM_getFace(cube->left);
 				CAM_flush(); //Mesure de pr�caution
 				state = VINCENT_MODELING_PHASE_11;
 				return_value = VINCENT_MODELING_NEW_FACE;
@@ -674,8 +678,7 @@ modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation
 				CAM_askFor(CAM_FACE);
 			}
 			else if(CAM_isReady()){
-				CAM_getFace(face);
-				VINCENT_copyFace(cube->right, face);
+				CAM_getFace(cube->right);
 				CAM_flush(); //Mesure de pr�caution
 				state = VINCENT_MODELING_PHASE_13;
 				return_value = VINCENT_MODELING_NEW_FACE;
@@ -719,14 +722,6 @@ bool_e VINCENT_cubeResolved(cube_s *cube){
 		}
 	}
 	return true;
-}
-
-void VINCENT_copyFace(face_t dest_face, face_t src_face){
-	for(uint8_t y = 0; y < 3; y++){
-		for(uint8_t x = 0; x < 3; x++){
-			dest_face[y][x] = src_face[y][x];
-		}
-	}
 }
 
 #if MAIN_TEST
