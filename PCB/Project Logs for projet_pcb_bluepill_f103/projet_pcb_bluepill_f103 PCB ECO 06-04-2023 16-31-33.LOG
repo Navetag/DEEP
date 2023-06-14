@@ -1,0 +1,11 @@
+Added Component: Designator=RLed0(RESISTANCE_CMS_1206)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "Type"; Value = "CMS_1206"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "150"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=NetD0_1 Pin=RLed0-1
+Added Pin To Net: NetName=PB15 Pin=RLed0-2
+Added Member To Class: ClassName=projet_pcb_bluepill_f103 Member=Component Cd_tft 10uF
+Added Member To Class: ClassName=projet_pcb_bluepill_f103 Member=Component Cout2 CONDENSATEUR_CER_RAD_5.08
+Added Member To Class: ClassName=projet_pcb_bluepill_f103 Member=Component J_VCC DOUILLE BANANE 4mm
+Added Member To Class: ClassName=projet_pcb_bluepill_f103 Member=Component RLed0 RESISTANCE_CMS_1206
+Added Member To Class: ClassName=projet_pcb_bluepill_f103 Member=Component U5V REGULATEUR_TO220_78XX

@@ -1,0 +1,15 @@
+Removed Pin From Net: NetName=GND Pin=Cdtsop-2
+Removed Pin From Net: NetName=GND Pin=QIR-2
+Removed Pin From Net: NetName=+3V3 Pin=R+tsop-1
+Removed Pin From Net: NetName=GND Pin=RpdIR-1
+Removed Pin From Net: NetName=+3V3 Pin=Rputsop-1
+Removed Pin From Net: NetName=+5V Pin=RsIR-2
+Removed Pin From Net: NetName=GND Pin=TSOP38238-2
+Removed Member From Class: ClassName=projet_pcb_bluepill_f103 Member=Cdtsop
+Removed Member From Class: ClassName=projet_pcb_bluepill_f103 Member=D?
+Removed Member From Class: ClassName=projet_pcb_bluepill_f103 Member=QIR
+Removed Member From Class: ClassName=projet_pcb_bluepill_f103 Member=R+tsop
+Removed Member From Class: ClassName=projet_pcb_bluepill_f103 Member=RpdIR
+Removed Member From Class: ClassName=projet_pcb_bluepill_f103 Member=Rputsop
+Removed Member From Class: ClassName=projet_pcb_bluepill_f103 Member=RsIR
+Removed Member From Class: ClassName=projet_pcb_bluepill_f103 Member=TSOP38238
