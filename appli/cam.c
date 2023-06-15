@@ -1,8 +1,9 @@
-/*
- * cam.c
- *
- *  Created on: 1 avr. 2023
- *      Author: caill
+/**
+ * @file cam.c
+ * @author armand
+ * @date 01 avril 2023
+ * @brief Sources du module screen.
+ * @version 0.1
  */
 
 #include "cam.h"
@@ -10,31 +11,48 @@
 
 /*
  * =====================================================================================
- * Types privés
+ * Types privï¿½s
  * =====================================================================================
  */
 
+/**
+ * @struct block_s
+ * @brief Objet de signature d'un block de la Pixy2
+ */
 typedef struct{
-	block_type_e signature;
-	uint16_t center_x;
-	uint16_t center_y;
-	uint16_t width;
-	uint16_t height;
+	block_type_e signature; /*!< Valeur de la signature */
+	uint16_t center_x;		/*!< Abscisse du centre de la signature */
+	uint16_t center_y;		/*!< Ordonnee du centre de la signature */
+	uint16_t width;			/*!< Largeur de la signature */
+	uint16_t height;		/*!< Hauteur de la signature */
 }block_s;
 
+/**
+ * @struct blocks_received_s
+ * @brief Objet representant toutes les signatures percues par la Pixy2
+ */
 typedef struct{
-	block_s blocks[CAM_MAX_BLOCKS];
-	uint8_t nb_blocks_received;
+	block_s blocks[CAM_MAX_BLOCKS];	/*!< Tableau des signatures */
+	uint8_t nb_blocks_received;		/*!< Nombre de signatures */
 }blocks_received_s;
 
 /*
  * =====================================================================================
- * Prototypes privés
+ * Prototypes privï¿½s
  * =====================================================================================
  */
 
-void CAM_cleanFace(face_t face);
+/**
+ * @brief Met tous les carres de la face en blanc
+ * @param[out] face Face a nettoyer
+ */
+void CAM_cleanFace(block_type_e face[3][3]);
 
+/**
+ * @brief Converti les octets du buffer correspondant a la reponse d'une requete de signature
+ * en une structure.
+ * @param[out] blocks_received Pointeur de la stucture a completer
+ */
 void CAM_getBlocksReceived(blocks_received_s *blocks_received);
 
 /*
@@ -54,7 +72,7 @@ bool_e CAM_isReady(){
 void CAM_askFor(request_type_e request){
 
 	/*
-	 * Trames envoyées à la pixycam :
+	 * Trames envoyï¿½es ï¿½ la pixycam :
 	 *
 	 * 174,193 : 16-bit sync
 	 * 32 : type du paquet : signatures
@@ -99,7 +117,7 @@ void CAM_getFace(block_type_e face[3][3]){
 
 	if(!blocks_received.nb_blocks_received) return;
 
-	//Toutes les signatures sont ramenées vers le centre de manière relative
+	//Toutes les signatures sont ramenï¿½es vers le centre de maniï¿½re relative
 
 	int16_t min_y = -1,
 			min_x = -1;
@@ -116,8 +134,8 @@ void CAM_getFace(block_type_e face[3][3]){
 		blocks_received.blocks[i].center_y -= min_y;
 	}
 
-	//Le centre du premier carré de la face aux coordonnées CAM_ORIGIN_SQUARE_CENTERxCAM_ORIGIN_SQUARE_CENTER pixels
-	//Chaqu'un des centres de carré sont séparés par CAM_SPACES_BETWEEN_SQUARES pixels
+	//Le centre du premier carrï¿½ de la face aux coordonnï¿½es CAM_ORIGIN_SQUARE_CENTERxCAM_ORIGIN_SQUARE_CENTER pixels
+	//Chaqu'un des centres de carrï¿½ sont sï¿½parï¿½s par CAM_SPACES_BETWEEN_SQUARES pixels
 
 	int16_t max_y,
 			max_x,
@@ -136,8 +154,8 @@ void CAM_getFace(block_type_e face[3][3]){
 				min_x = blocks_received.blocks[i].center_x - (uint16_t)(blocks_received.blocks[i].height / 2);
 				max_x = min_x + blocks_received.blocks[i].height;
 
-				//Si, pour chaque carré, son centre est compris dans une signature perçue, il prend sa couleur.
-				//La face est initialisé blanche et le blanc n'est pas détécté.
+				//Si, pour chaque carrï¿½, son centre est compris dans une signature perï¿½ue, il prend sa couleur.
+				//La face est initialisï¿½ blanche et le blanc n'est pas dï¿½tï¿½ctï¿½.
 				if(	min_y <= square_center_y && square_center_y <= max_y &&
 					min_x <= square_center_x && square_center_x <= max_x){
 					face[y][x] = blocks_received.blocks[i].signature;
@@ -152,11 +170,11 @@ void CAM_getFace(block_type_e face[3][3]){
 
 /*
  * =====================================================================================
- * Fonctions privées
+ * Fonctions privï¿½es
  * =====================================================================================
  */
 
-void CAM_cleanFace(face_t face){
+void CAM_cleanFace(block_type_e face[3][3]){
 	for(uint8_t i = 0; i < 3; i++){
 		for(uint8_t j = 1; j < 3; j++){
 			face[i][j] = CUBE_WHITE;
@@ -164,9 +182,8 @@ void CAM_cleanFace(face_t face){
 	}
 }
 
-
 void CAM_getBlocksReceived(blocks_received_s *blocks_received){
-	//Reception de la réponse supposément reçue
+	//Reception de la rï¿½ponse supposï¿½ment reï¿½ue
 		uint8_t buf[6+14*CAM_MAX_BLOCKS];
 		uint16_t buf_index = 0;
 		blocks_received->nb_blocks_received = 0;
@@ -178,15 +195,15 @@ void CAM_getBlocksReceived(blocks_received_s *blocks_received){
 		}
 		if(!buf_index) return;
 
-		//Le 4eme octet de la réponse indique la longueur du payload
+		//Le 4eme octet de la rï¿½ponse indique la longueur du payload
 		blocks_received->nb_blocks_received = buf[3]/14;
 		if(blocks_received->nb_blocks_received > CAM_MAX_BLOCKS){
-			//Condition normalement impossible, simple mesure de précaution
+			//Condition normalement impossible, simple mesure de prï¿½caution
 			blocks_received->nb_blocks_received = CAM_MAX_BLOCKS;
 		}
 
 		/*
-		 * On parcours chacun des blocks de la trame de réponse pour les sauvegarder dans la structure
+		 * On parcours chacun des blocks de la trame de rï¿½ponse pour les sauvegarder dans la structure
 		 * Chaque block faisant une longueur de 14 octets et le premier commencant au 7eme octet
 		 */
 		buf_index = 6;

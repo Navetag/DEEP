@@ -1,6 +1,8 @@
 /Debug
 
 /.settings
+/html
 
 projet-f103 Debug.launch
 DEEP Debug.launch
+*docx

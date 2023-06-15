@@ -1,8 +1,8 @@
-/*
- * config.h
- *
- *  Created on: 31 mars 2016
- *      Author: Nirgal
+/**
+ * @file config.h
+ * @author Nigral
+ * @date 31 mars 2016
+ * @brief Configuration du projet.
  */
 
 #ifndef CONFIG_H_
@@ -10,8 +10,11 @@
 #include "stm32f1xx_hal.h"
 
 //Main define
-#define MAIN_TEST 1
-#define SERVO_TEST 0
+/**
+ * @def MAIN_TEST
+ * @brief Macro a passer a 1 pour inclure les fonctionnalites de test
+ */
+#define MAIN_TEST 0
 
 //Choix de la cible utilisée.
 #define NUCLEO	0

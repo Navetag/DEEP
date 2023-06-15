@@ -1,8 +1,9 @@
-/*
- * screen.c
- *
- *  Created on: 10 juin 2023
- *      Author: auger
+/**
+ * @file screen.c
+ * @author armand
+ * @date 01 avril 2023
+ * @brief Sources du module screen.
+ * @version 0.1
  */
 
 #include "screen.h"
@@ -18,10 +19,14 @@
  * =====================================================================================
  */
 
+/**
+ * @enum screen_state_e
+ * @brief Etats du process du module
+ */
 typedef enum{
-	SCREEN_STATE_INIT,
-    SCREEN_STATE_WAIT,
-	SCREEN_STATE_GET_PRESSED_BUTTON
+	SCREEN_STATE_INIT,				/*!< Initialisation*/
+    SCREEN_STATE_WAIT,				/*!< Etat d'attente entre chaque action utilisateur*/
+	SCREEN_STATE_GET_PRESSED_BUTTON	/*!< Verifie les actions utilisateur*/
 }screen_state_e;
 
 /*
@@ -30,8 +35,16 @@ typedef enum{
  * =====================================================================================
  */
 
+/**
+ * @brief Initialise le module :
+ *		- Ajoute le callback "SCREEN_timerCallback" au module systick
+ *		- Initialise l'ecran et la fonctionnalite du tactile
+ */
 void SCREEN_init(void);
 
+/**
+ * @brief Callback appele toutes les millisecondes par le module systick. Decremente un timer (minimum a 0ms)
+ */
 void SCREEN_timerCallback();
 
 /*
@@ -56,9 +69,6 @@ screen_action_e SCREEN_getLastUserAction(void){
 	return return_value;
 }
 
-/*
-    Demande d'affichage du menu demand�
-*/
 void SCREEN_display(screen_type_e type, cube_s * cube){
 	current_display = type;
 	switch (type) {
@@ -94,10 +104,6 @@ void SCREEN_display(screen_type_e type, cube_s * cube){
 	}
 }
 
-
-/*
-    Machine � �tat
-*/
 void SCREEN_process(void){
 	static screen_state_e 	state = SCREEN_STATE_INIT,
 							previous_state = SCREEN_STATE_INIT;
