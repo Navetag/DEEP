@@ -122,27 +122,37 @@ typedef enum{
 	CUBE_SERVO_FINISHED		/*!< Mouvements des servo-moteurs finis*/
 }cube_servo_state_e;
 
-/*
-    Machine � �tat
-        - g�re une pile FIFO contenant les mvts en attente (tableau de )
-        - r�cup�re l'�tat du cube
-*/
+/**
+ * @brief Machine a etat du process du module - non bloquant :
+ * 		- Gere l'application d'une sequence de mouvements primaires stockes dans une pile FIFO aux servo-moteurs
+ * 		- Se positionne en etat "FINISHED" quand les servo-moteurs ont fini leurs courses et que la pile est vide
+ * 		- Se charge de l'initialisation et doit etre appelle en boucle
+ */
 void CUBE_SERVO_process(void);
 
-/*
-    Ajoute un mouvement dans la pile
-*/
+/**
+ * @brief Ajoute un momuvement complexe a la pile de mouvements - non bloquant
+ * 		- Le mouvement est decompose en une sequence de mouvements primaires
+ * @param mvt Le mouvement complexe a empiler
+ */
 void CUBE_SERVO_addMvt(cube_servo_complex_mvt_e mvt);
 
-/*
-    Renvoie l'�tat de la machine servo
-*/
+/**
+ * @brief Retourne l'etat courant de la machine a etat du process - non bloquant
+ * @return L'etat courant de la machine a etat du process
+ */
 cube_servo_state_e CUBE_SERVO_getState(void);
 
+/**
+ * @brief Vide la pile de mouvements - non bloquant
+ */
 void CUBE_SERVO_flush(void);
 
 #if MAIN_TEST
 
+/**
+ * @brief Fonction de test du module - bloquant
+ */
 void CUBE_SERVO_test(void);
 
 #endif

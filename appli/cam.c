@@ -42,8 +42,17 @@ typedef struct{
  * =====================================================================================
  */
 
+/**
+ * @brief Met tous les carres de la face en blanc
+ * @param[out] face Face a nettoyer
+ */
 void CAM_cleanFace(block_type_e face[3][3]);
 
+/**
+ * @brief Converti les octets du buffer correspondant a la reponse d'une requete de signature
+ * en une structure.
+ * @param[out] blocks_received Pointeur de la stucture a completer
+ */
 void CAM_getBlocksReceived(blocks_received_s *blocks_received);
 
 /*

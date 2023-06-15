@@ -72,20 +72,22 @@ typedef enum{
 	SCREEN_ACTION_RESOLVE	/*!< Choix de resolution*/
 }screen_action_e;
 
-/*
-    R�cup�ration de l'action effectu�e via le tactile de l'�cran
-*/
+/**
+ * @brief Fourni la derniere action utilisateur percue - non bloquant
+ * @return L'action captee
+ */
 screen_action_e SCREEN_getLastUserAction(void);
 
-/*
-    Demande d'affichage du menu demand�
-    Si le type est "SCREEN_MODELING" il est attendu que le second param�tre ne soit pas un pointeur null.
-*/
+/**
+ * @brief Met a jour l'affichage de l'ecran - non bloquant
+ * @param type Type d'ecran a afficher
+ * @param[in] cube Structure du cube dont le patron doit etre affiche (Uniquement pour le type "SCREEN_MODELING")
+ */
 void SCREEN_display(screen_type_e type, cube_s * cube);
 
-/*
-    Machine � �tat
-*/
+/**
+ * @brief Machine a etat du process du module - non bloquant
+ */
 void SCREEN_process(void);
 
 #endif /* SCREEN_H_ */

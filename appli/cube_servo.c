@@ -59,27 +59,56 @@ typedef enum{
  * =====================================================================================
  */
 
+/**
+ * @brief Ajoute un momuvement complexe a la pile de mouvements - non bloquant
+ * 		- Le mouvement est decompose en une sequence de mouvements primaires
+ * @param mvt Le mouvement complexe a empiler
+ */
 void CUBE_SERVO_init(void);
 
+/**
+ * @brief Callback appele par le module systick, decremente un timer toutes les millisecondes (minmum 0)
+ */
 void CUBE_SERVO_waitingTimer(void);
 
+/**
+ * @brief Applique le mouvement primaire au servo-moteur correspondant et depile le dernier mouvement
+ * @param mvt Le mouvement primaire a appliquer
+ */
 void CUBE_SERVO_handlePrimary(cube_servo_primary_mvt_e mvt);
 
+/**
+ * @brief Empile dans la FIFO un mouvement et incremente son pointeur
+ * @param mvt Le mouvement primaire a empiler
+ */
 void CUBE_SERVO_queue(cube_servo_primary_mvt_e mvt);
 
+/**
+ * @brief Depile un mouvement de la FIFO decremente le pointeur
+ */
 void CUBE_SERVO_unqueue(void);
 
+/**
+ * @brief Applique une position au servomoteur du support de rotation
+ * @param position La posiion que doit atteindre le servo-moteur
+ */
 void CUBE_SERVO_supportSetPosition(uint16_t position);
 
+/**
+ * @brief Applique une position au servomoteur de la cage
+ * @param position La position que doit atteindre le servo-moteur
+ */
 void CUBE_SERVO_cageSetPosition(uint16_t position);
 
-void CUBE_SERVO_platform_pos_reach_process();
+/**
+ * @brief Process appele toutes les millisecondes gerant l'asservissement du servo-moteur du support de rotation
+ */
+void CUBE_SERVO_platform_pos_reach_process(void);
 
-void CUBE_SERVO_platform_set_pos_to_reach(int position);
-
-void CUBE_SERVO_cage_pos_reach_process();
-
-void CUBE_SERVO_cage_set_pos_to_reach(int position);
+/**
+ * @brief Process appele toutes les millisecondes gerant l'asservissement du servo-moteur de la cage
+ */
+void CUBE_SERVO_cage_pos_reach_process(void);
 
 /*
  * =====================================================================================
@@ -114,7 +143,7 @@ static volatile int t;
  * =====================================================================================
  */
 
-void CUBE_SERVO_process(){
+void CUBE_SERVO_process(void){
 	bool_e entrance = current_state != previous_state;
 	previous_state = current_state;
 
@@ -407,7 +436,7 @@ cube_servo_state_e CUBE_SERVO_getState(void){
 	return current_state;
 }
 
-void CUBE_SERVO_flush(){
+void CUBE_SERVO_flush(void){
 	queue_pointer = -1;
 }
 
@@ -516,32 +545,25 @@ void CUBE_SERVO_unqueue(){
 }
 
 void CUBE_SERVO_supportSetPosition(uint16_t position){
-//	if(position > 100)
-//		position = 100; //�cretage si l'utilisateur demande plus de 100%
-	CUBE_SERVO_platform_set_pos_to_reach(position);
-	//TIMER_set_duty(TIMER1_ID, TIM_CHANNEL_1, position+100);*/
+	CUBE_SERVO_platform_new_pos = TRUE;
+	CUBE_SERVO_platform_pos_to_reach = position;
 
 }
 
 void CUBE_SERVO_cageSetPosition(uint16_t position){
-//	if(position > 100)
-//		position = 100; //�cretage si l'utilisateur demande plus de 100%
-	CUBE_SERVO_cage_set_pos_to_reach(position);
-	//TIMER_set_duty(TIMER1_ID, TIM_CHANNEL_2, position+100);
+	CUBE_SERVO_cage_new_pos = TRUE;
+	CUBE_SERVO_cage_pos_to_reach = position;
 }
 
 void CUBE_SERVO_platform_pos_reach_process(){
 	static int time = 0;
 	if(time<10){
 		time++;
-	}
-
-	else{
+	}else{
 		if(CUBE_SERVO_platform_new_pos == TRUE){
 			if(CUBE_SERVO_platform_pos_to_reach > CUBE_SERVO_platform_current_pos){
 				CUBE_SERVO_platform_current_pos = ((CUBE_SERVO_platform_current_pos +2) >CUBE_SERVO_platform_pos_to_reach)?CUBE_SERVO_platform_pos_to_reach:(CUBE_SERVO_platform_current_pos +2);
 				TIMER_set_duty(TIMER1_ID, TIM_CHANNEL_1, CUBE_SERVO_platform_current_pos+100);
-
 			}
 			else if (CUBE_SERVO_platform_pos_to_reach < CUBE_SERVO_platform_current_pos){
 				CUBE_SERVO_platform_current_pos = ((CUBE_SERVO_platform_current_pos -2) <CUBE_SERVO_platform_pos_to_reach)?CUBE_SERVO_platform_pos_to_reach:(CUBE_SERVO_platform_current_pos -2);
@@ -551,28 +573,19 @@ void CUBE_SERVO_platform_pos_reach_process(){
 				CUBE_SERVO_platform_new_pos == FALSE;
 			}
 		}
-
 		time=0;
 	}
-}
-
-void CUBE_SERVO_platform_set_pos_to_reach(int position){
-	CUBE_SERVO_platform_new_pos = TRUE;
-	CUBE_SERVO_platform_pos_to_reach = position;
 }
 
 void CUBE_SERVO_cage_pos_reach_process(){
 	static int time = 0;
 	if(time<10){
 		time++;
-	}
-
-	else{
+	}else{
 		if(CUBE_SERVO_cage_new_pos == TRUE){
 			if(CUBE_SERVO_cage_pos_to_reach > CUBE_SERVO_cage_current_pos){
 				CUBE_SERVO_cage_current_pos = ((CUBE_SERVO_cage_current_pos +2) >CUBE_SERVO_cage_pos_to_reach)?CUBE_SERVO_cage_pos_to_reach:(CUBE_SERVO_cage_current_pos +2);
 				TIMER_set_duty(TIMER1_ID, TIM_CHANNEL_2, CUBE_SERVO_cage_current_pos+100);
-
 			}
 			else if (CUBE_SERVO_cage_pos_to_reach < CUBE_SERVO_cage_current_pos){
 				CUBE_SERVO_cage_current_pos = ((CUBE_SERVO_cage_current_pos -2) <CUBE_SERVO_cage_pos_to_reach)?CUBE_SERVO_cage_pos_to_reach:(CUBE_SERVO_cage_current_pos -2);
@@ -582,13 +595,6 @@ void CUBE_SERVO_cage_pos_reach_process(){
 				CUBE_SERVO_cage_new_pos == FALSE;
 			}
 		}
-
 		time=0;
 	}
-}
-
-void CUBE_SERVO_cage_set_pos_to_reach(int position){
-	CUBE_SERVO_cage_new_pos = TRUE;
-	CUBE_SERVO_cage_pos_to_reach = position;
-
 }

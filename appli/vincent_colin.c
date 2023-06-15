@@ -71,16 +71,45 @@ typedef enum{
  * =====================================================================================
  */
 
+/**
+ * @brief machine a etat generale du projet (non fonctionnelle) :
+ * 		- IDLE : choix entre melange et resolution
+ * 		- SHUFFLE_SELECTED : instructions affichees et demande de validation
+ * 		- SHUFFLE : melange predefini du cube
+ * 		- RESOLVE_SELECTED : instructions affichees et demande de validation
+ * 		- MODELING : Modelisation du cube (non fonctionnel)
+ * 		- RESOLVE : Application d'une sequence de mouvement en fonction du modele (non fonctionnel)
+ */
 void VINCENT_state();
 
+/**
+ * @brief Initialisation du modele du cube
+ * @param[out] cube Pointeur du cube a initialiser (faces blanches)
+ */
 void VINCENT_initCube(cube_s *cube);
 
+/**
+ * @brief Machine a etat du process de modelisation du cube
+ * @param[out] cube Pointeur du cube a modeliser
+ * param[in, out] new_modelisation Booleen a mettre a TRUE pour reinitialiser le process, mis a FAUX automatiquement
+ * @return Un etat de modelisation
+ */
 modeling_result_e VINCENT_modelingProcess(cube_s *cube, bool_e *new_modelisation);
 
+/**
+ * @brief Verifie si le cube est resolu
+ * @param[in] cube Pointeur du cube a verifier
+ * @return TRUE si le cube est resolu, FALSE si non
+ */
 bool_e VINCENT_cubeResolved(cube_s *cube);
 
 #if MAIN_TEST
 
+/**
+ * @brief Machine a etat du process de simulation de la modelisation
+ * param[in, out] new_modelisation Booleen a mettre a TRUE pour reinitialiser le process, mis a FAUX automatiquement
+ * @return Un etat de modelisation
+ */
 modeling_result_e VINCENT_modelingTest(bool_e *new_modelisation);
 
 #endif

@@ -35,8 +35,16 @@ typedef enum{
  * =====================================================================================
  */
 
+/**
+ * @brief Initialise le module :
+ *		- Ajoute le callback "SCREEN_timerCallback" au module systick
+ *		- Initialise l'ecran et la fonctionnalite du tactile
+ */
 void SCREEN_init(void);
 
+/**
+ * @brief Callback appele toutes les millisecondes par le module systick. Decremente un timer (minimum a 0ms)
+ */
 void SCREEN_timerCallback();
 
 /*
@@ -61,9 +69,6 @@ screen_action_e SCREEN_getLastUserAction(void){
 	return return_value;
 }
 
-/*
-    Demande d'affichage du menu demand�
-*/
 void SCREEN_display(screen_type_e type, cube_s * cube){
 	current_display = type;
 	switch (type) {
@@ -99,9 +104,6 @@ void SCREEN_display(screen_type_e type, cube_s * cube){
 	}
 }
 
-/*
-    Machine � �tat
-*/
 void SCREEN_process(void){
 	static screen_state_e 	state = SCREEN_STATE_INIT,
 							previous_state = SCREEN_STATE_INIT;
